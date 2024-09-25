@@ -97,6 +97,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('campagnes.index') }}">
+                            <i class="fas fa-bullhorn"></i>
+                            <p>Campagnes Promotionnelles</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarLayouts">
                                 <i class="fas fa-th-list"></i>
                                 <p>Sidebar Layouts</p>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CampagnePromotionnelleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,18 @@ Route::get('/admin/dashboard', function () {
 Route::get('/hotels', function () {
     return view('backoffice.hotels');
 })->name('hotels');
+
+
+
+
+Route::resource('campagnes', CampagnePromotionnelleController::class);
+
+/*
+GET /campagnes (index) => campagnes.index
+GET /campagnes/create (create)
+POST /campagnes (store)
+GET /campagnes/{campagne} (show)
+GET /campagnes/{campagne}/edit (edit)
+PUT/PATCH /campagnes/{campagne} (update)
+DELETE /campagnes/{campagne} (destroy)
+*/
