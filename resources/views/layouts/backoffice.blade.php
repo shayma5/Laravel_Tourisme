@@ -97,6 +97,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route('resturants') }}">
+                                <i class="fas fa-layer-group"></i>
+                                <p>Resturants</p>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarLayouts">
                                 <i class="fas fa-th-list"></i>
                                 <p>Sidebar Layouts</p>

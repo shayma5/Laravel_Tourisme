@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\RestaurantController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,6 +20,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('restaurants', RestaurantController::class);
+Route::post('/restaurants', [RestaurantController::class, 'store'])->name('restaurants.store');
+// routes/web.php
+
 
 Route::get('/admin/dashboard', function () {
     return view('backoffice.dashboard');
@@ -28,3 +32,7 @@ Route::get('/admin/dashboard', function () {
 Route::get('/hotels', function () {
     return view('backoffice.hotels');
 })->name('hotels');
+
+// Route::get('/restaurants', function () {
+//     return view('backoffice.restaurants.index'); // Add .index to indicate the file
+// })->name('resturants');
