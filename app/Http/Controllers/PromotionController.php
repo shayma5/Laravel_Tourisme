@@ -2,83 +2,76 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Promotion;
 use Illuminate\Http\Request;
+use App\Models\CampagnePromotionnelle;
+
 
 class PromotionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $promotions = Promotion::all();
+        return view('backoffice.promotions.index', compact('promotions'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
-    {
-        //
-    }
+{
+    $campagnes = CampagnePromotionnelle::all();
+    return view('backoffice.promotions.create', compact('campagnes'));
+}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+public function store(Request $request)
+{
+    $validatedData = $request->validate([
+        'nom' => 'required|max:255',
+        'description' => 'required',
+        'date_debut' => 'required|date',
+        'date_fin' => 'required|date|after:date_debut',
+        'campagne_promotionnelle_id' => 'required|exists:campagne_promotionnelles,id',
+    ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    Promotion::create($validatedData);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    return redirect()->route('promotions.index')->with('success', 'Promotion créée avec succès.');
+}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+public function show(Promotion $promotion)
+{
+    return view('backoffice.promotions.show', compact('promotion'));
+}
+
+public function edit(Promotion $promotion)
+{
+    $campagnes = CampagnePromotionnelle::all();
+    return view('backoffice.promotions.edit', compact('promotion', 'campagnes'));
+}
+
+
+
+
+
+public function update(Request $request, Promotion $promotion)
+{
+    $validatedData = $request->validate([
+        'nom' => 'required|max:255',
+        'description' => 'required',
+        'date_debut' => 'required|date',
+        'date_fin' => 'required|date|after:date_debut',
+        'campagne_promotionnelle_id' => 'required|exists:campagne_promotionnelles,id',
+    ]);
+
+    $promotion->update($validatedData);
+
+    return redirect()->route('promotions.index')->with('success', 'Promotion mise à jour avec succès.');
+}
+
+    public function destroy(Promotion $promotion)
     {
-        //
+        $promotion->delete();
+
+        return redirect()->route('promotions.index')->with('success', 'Promotion supprimée avec succès.');
     }
 }

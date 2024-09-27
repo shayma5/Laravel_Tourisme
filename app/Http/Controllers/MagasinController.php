@@ -2,83 +2,106 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Magasin;
 use Illuminate\Http\Request;
+use App\Models\Promotion;
+use Illuminate\Support\Facades\Log;
+
 
 class MagasinController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $magasins = Magasin::all();
+        return view('backoffice.magasins.index', compact('magasins'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
-    {
-        //
-    }
+{
+    $promotions = Promotion::all();
+    return view('backoffice.magasins.create', compact('promotions'));
+}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nomMagasin' => 'required|max:255',
+            'type' => 'required',
+            'adresse' => 'required',
+            'description' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('magasins', 'public');
+            $validatedData['image'] = $imagePath;
+        }
+
+        $magasin = Magasin::create($validatedData);
+
+        if ($request->has('promotions')) {
+            $magasin->promotions()->attach($request->promotions);
+        }   
+
+        return redirect()->route('magasins.index')->with('success', 'Magasin créé avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Magasin $magasin)
     {
-        //
+        return view('backoffice.magasins.show', compact('magasin'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(Magasin $magasin)
     {
-        //
+        return view('backoffice.magasins.edit', compact('magasin'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, Magasin $magasin)
     {
-        //
+        $validatedData = $request->validate([
+            'nomMagasin' => 'required|max:255',
+            'type' => 'required',
+            'adresse' => 'required',
+            'description' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('magasins', 'public');
+            $validatedData['image'] = $imagePath;
+        }
+
+        $magasin->update($validatedData);
+
+        return redirect()->route('magasins.index')->with('success', 'Magasin mis à jour avec succès.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Magasin $magasin)
     {
-        //
+        $magasin->delete();
+
+        return redirect()->route('magasins.index')->with('success', 'Magasin supprimé avec succès.');
     }
+
+
+
+
+
+ /*    public function searchPromotions(Request $request)
+{
+    $query = $request->get('query');
+    
+
+    
+    $promotions = Promotion::where('nom', 'LIKE', "%{$query}%")
+                           ->orWhere('description', 'LIKE', "%{$query}%")
+                           ->orWhere('date_debut', 'LIKE', "%{$query}%")
+                           ->orWhere('date_fin', 'LIKE', "%{$query}%")
+                           ->get();
+                           \Log::info(json($promotions));
+    
+    return response()->json($promotions);
+} */
+
 }

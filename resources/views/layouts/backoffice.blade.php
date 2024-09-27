@@ -96,13 +96,48 @@
                                 <p>Hotels</p>
                             </a>
                         </li>
+                        
                         <li class="nav-item">
-                            <a href="{{ route('campagnes.index') }}">
-                            <i class="fas fa-bullhorn"></i>
-                            <p>Campagnes Promotionnelles</p>
+                            <a data-bs-toggle="collapse" href="#submenu">
+                                <i class="fas fa-bars"></i>
+                                <p>Souvenirs et Promotions</p>
+                                <span class="caret"></span>
                             </a>
+                            <div class="collapse" id="submenu">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a data-bs-toggle="collapse" href="#subnav1">
+                                            <span class="sub-item">Gestion des Promotions</span>
+                                            <span class="caret"></span>
+                                        </a>
+                                        <div class="collapse" id="subnav1">
+                                            <ul class="nav nav-collapse subnav">
+                                                <li>
+                                                    <a href="{{ route('campagnes.index') }}">
+                                                        <span class="sub-item"> Campagnes </span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ route('promotions.index') }}">
+                                                        <span class="sub-item">Promotions</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('magasins.index') }}">
+                                            <span class="sub-item">Magasins</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <span class="sub-item">Souvenirs</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
-
                         <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarLayouts">
                                 <i class="fas fa-th-list"></i>

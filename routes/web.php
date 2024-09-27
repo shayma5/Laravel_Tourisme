@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CampagnePromotionnelleController;
+use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\MagasinController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +36,15 @@ Route::get('/hotels', function () {
 
 
 
+
+
+
+
+
+
+
+
+
 Route::resource('campagnes', CampagnePromotionnelleController::class);
 
 /*
@@ -44,3 +56,14 @@ GET /campagnes/{campagne}/edit (edit)
 PUT/PATCH /campagnes/{campagne} (update)
 DELETE /campagnes/{campagne} (destroy)
 */
+
+
+
+Route::resource('promotions', PromotionController::class);
+
+
+Route::resource('magasins', MagasinController::class);
+
+
+
+Route::get('/search-promotions', [MagasinController::class, 'searchPromotions'])->name('promotions.search');

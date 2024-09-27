@@ -9,17 +9,15 @@ class Promotion extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'description', 'date_debut', 'date_fin'];
+    protected $fillable = ['nom', 'description', 'date_debut', 'date_fin', 'campagne_promotionnelle_id'];
 
     public function campagnePromotionnelle()
-{
-    return $this->belongsTo(CampagnePromotionnelle::class);
-}
+    {
+        return $this->belongsTo(CampagnePromotionnelle::class);
+    }
 
-public function magasins()
-{
-    return $this->belongsToMany(Magasin::class);
-}
-
-
+    public function magasins()
+    {
+        return $this->belongsToMany(Magasin::class);
+    }
 }
