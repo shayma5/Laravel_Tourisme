@@ -97,9 +97,21 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('resturants') }}">
+                            <a href="{{ route('restaurants.index') }}">
                                 <i class="fas fa-layer-group"></i>
                                 <p>Resturants</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('plats.index') }}">
+                                <i class="fas fa-layer-group"></i>
+                                <p>Plats</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('avis.index') }}">
+                                <i class="fas fa-layer-group"></i>
+                                <p>Avis</p>
                             </a>
                         </li>
                         

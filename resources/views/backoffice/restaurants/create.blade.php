@@ -1,6 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.backoffice')
 
 @section('content')
+
 <div class="container">
     <h1>Créer un Nouveau Restaurant</h1>
 
@@ -41,4 +42,5 @@
         <a href="{{ route('restaurants.index') }}" class="btn btn-secondary">Retour</a>
     </form>
 </div>
+<div>
 @endsection

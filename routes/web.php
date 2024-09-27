@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\PlatController;
+use App\Http\Controllers\AvisController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,7 +23,16 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('restaurants', RestaurantController::class);
-Route::post('/restaurants', [RestaurantController::class, 'store'])->name('restaurants.store');
+Route::resource('plats', PlatController::class);
+Route::resource('avis', AvisController::class);
+Route::get('/restaurants', [RestaurantController::class, 'app'])->name('restaurants.app');
+Route::get('/restaurants/frontend/{id}', [RestaurantController::class, 'showFrontend'])->name('restaurants.show.frontend');
+
+// Route pour le front-office
+
+
+
+// Route::post('/restaurants', [RestaurantController::class, 'store'])->name('restaurants.store');
 // routes/web.php
 
 

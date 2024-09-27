@@ -20,6 +20,22 @@ class RestaurantController extends Controller
         // return response()->json($restaurants); 
     }
 
+    public function app()
+{
+    $restaurants = Restaurant::all();
+
+    // Vérifier le contenu de $restaurants
+    if ($restaurants->isEmpty()) {
+        return "Aucun restaurant trouvé.";
+    }
+
+    return view('app.restaurants.index', compact('restaurants'));
+}
+
+   
+
+   
+
     // Afficher le formulaire de création d'un restaurant
     public function create()
     {
@@ -48,6 +64,16 @@ class RestaurantController extends Controller
         $restaurant = Restaurant::findOrFail($id); // Trouver le restaurant par ID
         return view('backoffice.restaurants.show', compact('restaurant')); // Affiche les détails du restaurant
     }
+
+    public function showFrontend($id)
+    {
+        $restaurant = Restaurant::with('plats')->findOrFail($id); 
+        return view('app.restaurants.showrestaurant', compact('restaurant'));
+    }
+
+    
+
+   
     // Afficher le formulaire d'édition d'un restaurant
     public function edit($id)
     {

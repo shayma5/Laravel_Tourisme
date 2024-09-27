@@ -83,8 +83,9 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">skon</a>
+                                    <a class="nav-link" href="{{ route('restaurants.app') }}">Voir les Restaurants</a>
                                 </li>
+
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">taher</a>
