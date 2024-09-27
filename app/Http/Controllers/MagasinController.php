@@ -85,6 +85,22 @@ class MagasinController extends Controller
     }
 
 
+    public function searchPromotions(Request $request)
+{
+    $query = $request->get('query');
+
+    console.log($query);
+    
+    $promotions = Promotion::where('nom', 'LIKE', "%{$query}%")
+                           ->orWhere('description', 'LIKE', "%{$query}%")
+                           ->get();
+
+    console.log(json($promotions));
+
+    return response()->json($promotions);
+}
+
+
 
 
 

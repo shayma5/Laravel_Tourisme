@@ -9,7 +9,7 @@ class Souvenir extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nom', 'prix', 'description', 'promotion', 'nbr_restant', 'image'];
+    protected $fillable = ['nom', 'prix', 'description', 'promotion', 'nbr_restant', 'image','magasin_id'];
 
 
     public function magasin()

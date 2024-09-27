@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CampagnePromotionnelleController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\MagasinController;
+use App\Http\Controllers\SouvenirController;
 
 
 /*
@@ -63,7 +64,10 @@ Route::resource('promotions', PromotionController::class);
 
 
 Route::resource('magasins', MagasinController::class);
+Route::get('/magasins/promotions/search', [MagasinController::class, 'searchPromotions'])->name('magasins.promotions.search');
 
 
 
-Route::get('/search-promotions', [MagasinController::class, 'searchPromotions'])->name('promotions.search');
+
+
+Route::resource('souvenirs', SouvenirController::class);

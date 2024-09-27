@@ -131,7 +131,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="#">
+                                        <a href="{{ route('souvenirs.index') }}">
                                             <span class="sub-item">Souvenirs</span>
                                         </a>
                                     </li>

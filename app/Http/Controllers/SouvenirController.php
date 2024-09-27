@@ -2,83 +2,82 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Souvenir;
 use Illuminate\Http\Request;
+use App\Models\Magasin;
 
 class SouvenirController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $souvenirs = Souvenir::all();
+        return view('backoffice.souvenirs.index', compact('souvenirs'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
-    {
-        //
-    }
+{
+    $magasins = Magasin::all();
+    return view('backoffice.souvenirs.create', compact('magasins'));
+}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nom' => 'required|max:255',
+            'prix' => 'required|numeric',
+            'description' => 'required',
+            'promotion' => 'nullable|numeric',
+            'nbr_restant' => 'required|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'magasin_id' => 'required|exists:magasins,id',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('souvenirs', 'public');
+            $validatedData['image'] = $imagePath;
+        }
+
+        Souvenir::create($validatedData);
+
+        return redirect()->route('souvenirs.index')->with('success', 'Souvenir créé avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Souvenir $souvenir)
     {
-        //
+        return view('backoffice.souvenirs.show', compact('souvenir'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(Souvenir $souvenir)
     {
-        //
+        return view('backoffice.souvenirs.edit', compact('souvenir'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, Souvenir $souvenir)
     {
-        //
+        $validatedData = $request->validate([
+            'nom' => 'required|max:255',
+            'prix' => 'required|numeric',
+            'description' => 'required',
+            'promotion' => 'nullable|numeric',
+            'nbr_restant' => 'required|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'magasin_id' => 'required|exists:magasins,id',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('souvenirs', 'public');
+            $validatedData['image'] = $imagePath;
+        }
+
+        $souvenir->update($validatedData);
+
+        return redirect()->route('souvenirs.index')->with('success', 'Souvenir mis à jour avec succès.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(Souvenir $souvenir)
     {
-        //
+        $souvenir->delete();
+
+        return redirect()->route('souvenirs.index')->with('success', 'Souvenir supprimé avec succès.');
     }
 }

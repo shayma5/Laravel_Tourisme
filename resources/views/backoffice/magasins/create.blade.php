@@ -36,10 +36,16 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         
-                        <input type="text" id="search" class="form-control" placeholder="Rechercher une promotion2...">
+                        <input type="text" id="search" class="form-control " placeholder="Rechercher une promotion2...">
+
+                        
                     </div>
+
+                    <div class="form-group">
+    <input type="text" id="searchPromotion" class="form-control" placeholder="Rechercher une promotion...">
+</div>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive ">
                     <table id="promotions-table" class="display table table-striped table-hover dataTable">
                         <thead>
                             <tr>
@@ -74,21 +80,15 @@
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-<script>
-    $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
-</script>
 
-{# <script>
+{# @push('scripts')
+<script>
 $(document).ready(function() {
     $('#searchPromotion').on('keyup', function() {
         var query = $(this).val();
         console.log(query);
         $.ajax({
-            url: "{{ route('promotions.search') }}",
+            url: "{{ route('magasins.promotions.search') }}",
             method: 'GET',
             data: {query: query},
             success: function(data) {
@@ -97,11 +97,11 @@ $(document).ready(function() {
                 $.each(data, function(index, promotion) {
                     tbody.append(`
                         <tr>
-                            /* <td>
+                            <td>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="promotions[]" value="${promotion.id}" id="promotion${promotion.id}">
                                 </div>
-                            </td> */
+                            </td>
                             <td>${promotion.nom}</td>
                             <td>${promotion.description.substring(0, 50)}...</td>
                             <td>${promotion.date_debut}</td>
@@ -112,23 +112,9 @@ $(document).ready(function() {
             }
         });
     });
-});</script> #}
-
-
-<script>
-    $(document).on('keyup',function(e){
-        e.preventDefault();
-        let search_string = $('#search').val();
-        $.ajax({
-            url: "{{ route('promotions.search') }}",
-            method: 'GET', 
-            data:{search_string:search_string},
-            success:function(res){
-                $('.table-data').html(res);
-            }
-
-        });
-    });
+});
 </script>
+@endpush #}
+
 
 @endsection
