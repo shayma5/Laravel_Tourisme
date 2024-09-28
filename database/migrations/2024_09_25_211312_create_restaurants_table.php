@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('siteWeb')->nullable();
             $table->string('telephone')->nullable();
             $table->text('description')->nullable();
+           
             $table->timestamps();
         });
     }

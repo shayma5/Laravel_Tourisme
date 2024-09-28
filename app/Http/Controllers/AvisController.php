@@ -28,7 +28,8 @@ class AvisController extends Controller
      */
     public function create()
     {
-        //
+        $restaurants = Restaurant::all(); // Récupérer tous les restaurants
+        return view('app.avis.create', compact('restaurants')); 
     }
 
     /**
@@ -39,7 +40,39 @@ class AvisController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validation des données envoyées
+        $request->validate([
+            'nomClient' => 'required|string|max:255',
+            'note' => 'required|integer|min:1|max:5', // Limiter la note entre 1 et 5 (ou 10 selon votre choix)
+            'commentaire' => 'nullable|string',
+            'restaurant_id' => 'required|exists:restaurants,id',
+        ]);
+
+        // Créer un nouvel avis
+        $avis = Avis::create([
+            'nomClient' => $request->nomClient,
+            'note' => $request->note,
+            'commentaire' => $request->commentaire,
+            'dateAvis' => now(),
+            'restaurant_id' => $request->restaurant_id,
+        ]);
+
+      
+       
+
+        // Retrieve the restaurant related to this review
+    $restaurant = Restaurant::find($request->restaurant_id);
+
+    // Calculate the new average rating
+    $newAverage = $restaurant->avis()->avg('note');
+
+    // Update the restaurant's average rating
+    $restaurant->noteMoyenne = $newAverage;
+    $restaurant->save();
+
+    // Redirect back to the restaurant's page with a success message
+    return redirect()->route('restaurants.app', $restaurant->id)
+                     ->with('success', 'Avis ajouté avec succès et note moyenne mise à jour.');
     }
 
     /**
@@ -84,6 +117,9 @@ class AvisController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $avis = Avis::findOrFail($id); // Récupérer l'avis par ID
+        $avis->delete(); // Supprimer l'avis
+
+        return redirect()->route('avis.index')->with('success', 'Avis supprimé avec succès.');
     }
 }

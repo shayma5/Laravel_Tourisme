@@ -21,6 +21,8 @@
     <!-- CSS FILES -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100;300;400;600;700&display=swap" rel="stylesheet">
@@ -81,6 +83,10 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">rahma</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('avis.create') }}">Ajouter Avis</a>
+                                </li>
+                                
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('restaurants.app') }}">Voir les Restaurants</a>

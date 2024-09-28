@@ -7,18 +7,50 @@ use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
 {
-    public function index()
-    {
-        $restaurants = Restaurant::all();
+    public function index(Request $request)
+{
+    $search = $request->get('search');
     
-    // Vérifier le contenu de $restaurants
-    if ($restaurants->isEmpty()) {
-        return "Aucun restaurant trouvé.";
-    }
+    // Rechercher les restaurants
+    $restaurants = Restaurant::when($search, function ($query, $search) {
+        return $query->where('nom', 'like', "%{$search}%");
+    })->get();
     
-    return view('backoffice.restaurants.index', compact('restaurants')); 
-        // return response()->json($restaurants); 
+    // Si la requête est AJAX, retourner uniquement les lignes du tableau
+    if ($request->ajax()) {
+        $output = '';
+        foreach ($restaurants as $restaurant) {
+            $output .= '
+                <tr>
+                    <td>'.$restaurant->id.'</td>
+                    <td>'.$restaurant->nom.'</td>
+                    <td>';
+            if ($restaurant->image) {
+                $output .= '<img src="'.asset('storage/'.$restaurant->image).'" alt="Image" width="100">';
+            } else {
+                $output .= 'Pas d\'image';
+            }
+            $output .= '</td>
+                    <td>'.$restaurant->adresse.'</td>
+                    <td>
+                        <a href="'.route('restaurants.show', $restaurant->id).'" class="btn btn-info">Voir</a>
+                        <a href="'.route('restaurants.edit', $restaurant->id).'" class="btn btn-warning">Éditer</a>
+                        <form action="'.route('restaurants.destroy', $restaurant->id).'" method="POST" style="display:inline;">
+                            '.csrf_field().'
+                            '.method_field('DELETE').'
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>';
+        }
+        return $output;
     }
+
+    return view('backoffice.restaurants.index', compact('restaurants', 'search'));
+}
+
+
+    
 
     public function app()
 {
@@ -44,19 +76,40 @@ class RestaurantController extends Controller
 
      // Enregistrer un nouveau restaurant dans la base de données
      public function store(Request $request)
-     {
-         $request->validate([ // Validation des données
-             'nom' => 'required',
-             'adresse' => 'required',
-             'siteWeb' => 'nullable|url',
-             'telephone' => 'nullable|string',
-             'description' => 'nullable|string',
-             'noteMoyenne' => 'nullable|numeric',
-         ]);
- 
-         Restaurant::create($request->all()); // Créer le restaurant
-         return redirect()->route('restaurants.index')->with('success', 'Restaurant créé avec succès.');
-     }
+{
+    // Validation des données
+    $validatedData = $request->validate([
+        'nom' => 'required|string|max:255',
+        'adresse' => 'required|string|max:255',
+        'siteWeb' => 'required|nullable|url',
+        'telephone' => 'required|nullable|string|max:20',
+        'description' => 'required|nullable|string|max:1000',
+        'noteMoyenne' => 'required|required|numeric|min:1|max:5', // Note moyenne entre 1 et 5
+        'image' => 'required|nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    // Gestion de l'image
+    if ($request->hasFile('image')) {
+        $image = $request->file('image')->store('images/restaurants', 'public');
+    } else {
+        $image = null;
+    }
+
+    // Création du restaurant
+    Restaurant::create([
+        'nom' => $request->nom,
+        'adresse' => $request->adresse,
+        'siteWeb' => $request->siteWeb,
+        'telephone' => $request->telephone,
+        'description' => $request->description,
+        'noteMoyenne' => $request->noteMoyenne,
+        'image' => $image,
+    ]);
+
+    return redirect()->route('restaurants.index')->with('success', 'Restaurant créé avec succès.');
+}
+
+
 
     // Afficher un restaurant spécifique
     public function show($id)
@@ -91,6 +144,7 @@ class RestaurantController extends Controller
             'telephone' => 'nullable|string',
             'description' => 'nullable|string',
             'noteMoyenne' => 'nullable|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
         ]);
 
         $restaurant = Restaurant::findOrFail($id); // Trouver le restaurant par ID

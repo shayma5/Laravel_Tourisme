@@ -4,7 +4,7 @@
 <div class="container">
     <h1>Ajouter un nouveau plat</h1>
 
-    <form action="{{ route('plats.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('plats.store') }}" method="POST" enctype="multipart/form-data" novalidate>
         @csrf
 
         <div class="form-group">

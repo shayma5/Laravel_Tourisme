@@ -103,7 +103,7 @@ class PlatController extends Controller
             'type' => 'required|string|max:255',
             'prix' => 'required|numeric',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
+            'image' => 'required|nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
             'restaurant_id' => 'required|exists:restaurants,id', // Validation de l'association avec restaurant
         ]);
 
@@ -122,6 +122,6 @@ class PlatController extends Controller
     {
         $plat = Plat::findOrFail($id); // Trouver le restaurant par ID
         $plat->delete(); // Supprimer le restaurant
-        return redirect()->route('plats.index')->with('success', 'Restaurant supprimé avec succès.');
+        return redirect()->route('plats.index')->with('success', 'Plat supprimé avec succès.');
     }
 }

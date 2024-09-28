@@ -16,6 +16,7 @@ class Restaurant extends Model
         'telephone',
         'description',
         'noteMoyenne',
+        'image',
     ];
 
 

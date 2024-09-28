@@ -4,7 +4,7 @@
 <div class="container">
     <h1>Éditer le Restaurant</h1>
 
-    <form action="{{ route('restaurants.update', $restaurant->id) }}" method="POST">
+    <form action="{{ route('restaurants.update', $restaurant->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -37,6 +37,18 @@
             <label for="noteMoyenne">Note Moyenne</label>
             <input type="number" name="noteMoyenne" id="noteMoyenne" class="form-control" value="{{ $restaurant->noteMoyenne }}" step="0.1">
         </div>
+
+
+        <div class="form-group">
+            <label for="image">Image</label>
+            <input type="file" name="image" class="form-control">
+            @if($restaurant->image)
+                <div>
+                    <img src="{{ asset('storage/' . $restaurant->image) }}" alt="{{ $restaurant->nom }}" style="max-width: 200px; margin-top: 10px;">
+                </div>
+            @endif
+        </div>
+
 
         <button type="submit" class="btn btn-success">Mettre à Jour</button>
         <a href="{{ route('restaurants.index') }}" class="btn btn-secondary">Retour</a>

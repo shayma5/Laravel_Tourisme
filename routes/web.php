@@ -19,16 +19,28 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Route::get('/restaurants',[RestaurantController::class, 'app'] ,function () {
+//     return view('app.restaurants.index');
+// })->name('restaurants.index2');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::resource('restaurants', RestaurantController::class);
+// Routes backend (admin)
+
 Route::resource('plats', PlatController::class);
 Route::resource('avis', AvisController::class);
-Route::get('/restaurants', [RestaurantController::class, 'app'])->name('restaurants.app');
-Route::get('/restaurants/frontend/{id}', [RestaurantController::class, 'showFrontend'])->name('restaurants.show.frontend');
 
-// Route pour le front-office
+
+// Routes frontend (utilisateurs)
+Route::get('/restaurants/frontend', [RestaurantController::class, 'showFrontend'])->name('restaurants.showFrontend');
+Route::get('/restaurants/frontend/{id}', [RestaurantController::class, 'showFrontend'])->name('restaurants.show.frontend');
+Route::get('/restaurants/app', [RestaurantController::class, 'app'])->name('restaurants.app');
+
+Route::prefix('admin')->group(function () {
+    Route::resource('restaurants', RestaurantController::class);
+});
+
 
 
 
