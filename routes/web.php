@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 Route::get('/admin/dashboard', function () {
     return view('backoffice.dashboard');
 })->middleware('auth');
@@ -28,3 +28,10 @@ Route::get('/admin/dashboard', function () {
 Route::get('/hotels', function () {
     return view('backoffice.hotels');
 })->name('hotels');
+//Route::get('/events', [EventController::class, 'index'])->name('events.index');
+Route::resource("/event", EventController::class);
+
+//Route::get('/events', [EventController::class, 'index'])->name('events.index');
+//Route::resource("/event", EventController::class)->name('events');
+//Route::get('/event', [EventController::class, 'index'])->name('event');
+

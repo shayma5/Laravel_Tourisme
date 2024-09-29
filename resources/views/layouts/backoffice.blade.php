@@ -93,9 +93,16 @@
                         <li class="nav-item">
                             <a href="{{ route('hotels') }}">
                                 <i class="fas fa-layer-group"></i>
+                                <p>Events</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/event') }}">
+                                <i class="fas fa-layer-group"></i>
                                 <p>Hotels</p>
                             </a>
                         </li>
+                        
                         <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#sidebarLayouts">
                                 <i class="fas fa-th-list"></i>
