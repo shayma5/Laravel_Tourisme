@@ -574,7 +574,7 @@
                                     aria-expanded="false">
                                     <span class="profile-username">
                                         <span class="op-7">Hi,</span>
-                                        <span class="fw-bold">{{ Auth::user()->name }}</span>
+                                        <span class="fw-bold">{{ Auth::check() ? Auth::user()->admin : 'Guest' }}</span>
                                     </span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-user animated fadeIn">
