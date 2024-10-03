@@ -29,7 +29,12 @@
                                 <tbody>
                                 @foreach($events as $item)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        
+                                        <td>
+                                            <img src="{{ asset($item->photo) }}" width= '50' height='50' class="img img-responsive" />
+ 
+ 
+                                        </td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->type }}</td>
                                         <td>{{ $item->start_date }}</td>

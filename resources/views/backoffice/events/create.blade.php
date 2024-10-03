@@ -5,7 +5,7 @@
   <div class="card-header">Create New events</div>
   <div class="card-body">
        
-      <form action="{{ url('event') }}" method="post">
+      <form action="{{ url('event') }}" method="post" enctype="multipart/form-data">
         {!! csrf_field() !!}
         <label>Name</label></br>
         <input type="text" name="name" id="name"  class="form-control"></br>
@@ -19,6 +19,7 @@
         <input type="datetime-local" name="end_date" id="end_date" class="form-control"><br>
         <label>Location</label></br>
         <input type="text" name="localisation" id="location" class="form-control"></br>
+        <input class="form-control" name="photo" type="file" id="photo">
         <input type="submit" value="Save" class="btn btn-success"></br>
     </form>
     
@@ -26,3 +27,4 @@
 </div>
   
 @stop
+

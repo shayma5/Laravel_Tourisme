@@ -36,11 +36,14 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
-        Events::create($input);
-        return redirect('event')->with('flash_message', 'Event Addedd!');  
+        $requestData = $request->all();
+        $fileName = time().$request->file('photo')->getClientOriginalName();
+        $path = $request->file('photo')->storeAs('images', $fileName, 'public');
+        $requestData["photo"] = '/storage/'.$path;
+        Events::create($requestData);
+        return redirect('event')->with('flash_message', 'Event Addedd!');
     }
- 
+
     /**
      * Display the specified resource.
      *
