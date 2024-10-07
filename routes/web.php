@@ -39,14 +39,7 @@ Route::get('/hotels', function () {
 
 
 
-
-
-
-
-
-
-
-Route::resource('campagnes', CampagnePromotionnelleController::class);
+Route::resource('/campagnes', CampagnePromotionnelleController::class);
 
 /*
 GET /campagnes (index) => campagnes.index
@@ -60,14 +53,16 @@ DELETE /campagnes/{campagne} (destroy)
 
 
 
-Route::resource('promotions', PromotionController::class);
+Route::resource('/promotions', PromotionController::class);
 
 
-Route::resource('magasins', MagasinController::class);
-Route::get('/magasins/promotions/search', [MagasinController::class, 'searchPromotions'])->name('magasins.promotions.search');
-
-
+Route::resource('/magasins', MagasinController::class);
 
 
 
-Route::resource('souvenirs', SouvenirController::class);
+
+
+Route::resource('/souvenirs', SouvenirController::class);
+
+
+Route::get('/home/magasins', [MagasinController::class, 'publicIndex'])->name('layouts.SouvenirsArtisanat.magasins.index');

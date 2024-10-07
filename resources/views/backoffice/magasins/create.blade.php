@@ -1,11 +1,6 @@
 @extends('layouts.backoffice')
 
 @section('content')
-<head>
-    <meta charset="UTF-8">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-</head>
-<body>
 <div class="container">
     <h1>Créer un nouveau Magasin</h1>
     <form action="{{ route('magasins.store') }}" method="POST" enctype="multipart/form-data">
@@ -31,90 +26,48 @@
             <input type="file" class="form-control-file" id="image" name="image">
         </div>
         <div class="form-group">
-            <label>Promotions</label>
+        <hr></hr>
+            <h4>Promotions</h4>
             <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        
-                        <input type="text" id="search" class="form-control " placeholder="Rechercher une promotion2...">
-
-                        
-                    </div>
-
-                    <div class="form-group">
-    <input type="text" id="searchPromotion" class="form-control" placeholder="Rechercher une promotion...">
-</div>
-                </div>
-                <div class="table-responsive ">
-                    <table id="promotions-table" class="display table table-striped table-hover dataTable">
-                        <thead>
-                            <tr>
-                                <th>Sélectionner</th>
-                                <th>Nom de la promotion</th>
-                                <th>Description</th>
-                                <th>Date de début</th>
-                                <th>Date de fin</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($promotions as $promotion)
+                @if($promotions->isNotEmpty())
+                    <div class="table-responsive">
+                        <table id="promotions-table" class="display table table-striped table-hover dataTable">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="promotions[]" value="{{ $promotion->id }}" id="promotion{{ $promotion->id }}">
-                                        </div>
-                                    </td>
-                                    <td>{{ $promotion->nom }}</td>
-                                    <td>{{ Str::limit($promotion->description, 50) }}</td>
-                                    <td>{{ $promotion->date_debut }}</td>
-                                    <td>{{ $promotion->date_fin }}</td>
+                                    <th>Sélectionner</th>
+                                    <th>Nom de la promotion</th>
+                                    <th>Description</th>
+                                    <th>Date de début</th>
+                                    <th>Date de fin</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                @foreach($promotions as $promotion)
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="promotions[]" value="{{ $promotion->id }}" id="promotion{{ $promotion->id }}">
+                                            </div>
+                                        </td>
+                                        <td>{{ $promotion->nom }}</td>
+                                        <td>{{ Str::limit($promotion->description, 50) }}</td>
+                                        <td>{{ $promotion->date_debut }}</td>
+                                        <td>{{ $promotion->date_fin }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @else
+                
+                    <span>Aucune promotion disponible actuellement.</span>
+                    <a href="{{ route('promotions.create') }}" class="btn btn-primary">Créer une nouvelle promotion</a>
+                @endif
             </div>
         </div>
+        <hr/>
+        <br/>
         <button type="submit" class="btn btn-primary">Créer</button>
     </form>
 </div>
-</body>
-<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-
-{# @push('scripts')
-<script>
-$(document).ready(function() {
-    $('#searchPromotion').on('keyup', function() {
-        var query = $(this).val();
-        console.log(query);
-        $.ajax({
-            url: "{{ route('magasins.promotions.search') }}",
-            method: 'GET',
-            data: {query: query},
-            success: function(data) {
-                var tbody = $('#promotions-table tbody');
-                tbody.empty();
-                $.each(data, function(index, promotion) {
-                    tbody.append(`
-                        <tr>
-                            <td>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="promotions[]" value="${promotion.id}" id="promotion${promotion.id}">
-                                </div>
-                            </td>
-                            <td>${promotion.nom}</td>
-                            <td>${promotion.description.substring(0, 50)}...</td>
-                            <td>${promotion.date_debut}</td>
-                            <td>${promotion.date_fin}</td>
-                        </tr>
-                    `);
-                });
-            }
-        });
-    });
-});
-</script>
-@endpush #}
-
-
 @endsection

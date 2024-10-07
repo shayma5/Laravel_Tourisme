@@ -6,6 +6,7 @@ use App\Models\Magasin;
 use Illuminate\Http\Request;
 use App\Models\Promotion;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 
 class MagasinController extends Controller
@@ -16,11 +17,18 @@ class MagasinController extends Controller
         return view('backoffice.magasins.index', compact('magasins'));
     }
 
+
+    public function publicIndex()
+    {
+        $magasins = Magasin::all();
+        return view('layouts.SouvenirsArtisanat.magasins.index', compact('magasins'));
+    }
+
     public function create()
-{
-    $promotions = Promotion::all();
-    return view('backoffice.magasins.create', compact('promotions'));
-}
+    {
+        $promotions = Promotion::where('date_fin', '>=', Carbon::now()->toDateString())->get();
+        return view('backoffice.magasins.create', compact('promotions'));
+    }
 
 
     public function store(Request $request)

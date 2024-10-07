@@ -62,9 +62,18 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="#">shayma</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Souvenirs et Artisanat </a>
+                                    <li class="nav-item dropdown">
+                                        <a id="navbarDropdownSouvenirs" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Souvenirs et Artisanat
+                                        </a>
+
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdownSouvenirs">
+                                        <a class="dropdown-item" href="{{ route('layouts.SouvenirsArtisanat.magasins.index') }}">Nos magasins</a>
+                                            <a class="dropdown-item" href="#">Nos Souvenirs</a>
+                                            <a class="dropdown-item" href="#">Offres Spéciales</a>
+                                        </div>
                                     </li>
+
                                     <li class="nav-item">
                                         <a class="nav-link" href="#">rahma</a>
                                     </li>

@@ -49,7 +49,9 @@ class SouvenirController extends Controller
 
     public function edit(Souvenir $souvenir)
     {
-        return view('backoffice.souvenirs.edit', compact('souvenir'));
+        $magasins = Magasin::all();
+    
+        return view('backoffice.souvenirs.edit', compact('souvenir','magasins'));
     }
 
     public function update(Request $request, Souvenir $souvenir)

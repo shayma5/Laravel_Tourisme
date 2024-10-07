@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Promotion;
 use Illuminate\Http\Request;
 use App\Models\CampagnePromotionnelle;
+use Carbon\Carbon;
 
 
 class PromotionController extends Controller
@@ -16,11 +17,14 @@ class PromotionController extends Controller
     }
 
     public function create()
-{
-    $campagnes = CampagnePromotionnelle::all();
-    return view('backoffice.promotions.create', compact('campagnes'));
-}
-
+    {
+        $dateNow = Carbon::now();
+        // Récupérer les campagnes non expirées
+        $campagnes = CampagnePromotionnelle::where('date_fin', '>', $dateNow)->get();
+    
+        // Passer les campagnes à la vue (qu'elles soient vides ou non)
+        return view('backoffice.promotions.create', compact('campagnes'));
+    }
 
 public function store(Request $request)
 {
