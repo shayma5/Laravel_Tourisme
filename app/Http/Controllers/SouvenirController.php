@@ -14,6 +14,12 @@ class SouvenirController extends Controller
         return view('backoffice.souvenirs.index', compact('souvenirs'));
     }
 
+
+    public function souvenirsParMagasin(Magasin $magasin)
+    {
+        return view('layouts.SouvenirsArtisanat.magasins.indexSouvenirMagasin', compact('magasin'));
+    }
+
     public function create()
 {
     $magasins = Magasin::all();

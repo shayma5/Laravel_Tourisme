@@ -64,7 +64,7 @@
                         @endif
 
                         <div class="d-flex align-items-center border-top pt-3">
-                            <a href="{{ route('layouts.SouvenirsArtisanat.magasins.index', $magasin->id) }}" class="custom-btn btn ms-auto">Voir plus</a>
+                            <a href="{{ route('layouts.SouvenirsArtisanat.magasins.show', $magasin->id) }}" class="custom-btn btn ms-auto">Voir plus</a>
                         </div>
                     </div>
                 </div>

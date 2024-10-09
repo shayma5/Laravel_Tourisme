@@ -60,6 +60,20 @@ class MagasinController extends Controller
         return view('backoffice.magasins.show', compact('magasin'));
     }
 
+
+
+    public function showPublic(Magasin $magasin)
+{
+    // Charger seulement les souvenirs du magasin
+    $magasin->load('souvenirs');
+
+    return view('layouts.SouvenirsArtisanat.magasins.show', compact('magasin'));
+}
+
+
+
+
+
     public function edit(Magasin $magasin)
     {
         return view('backoffice.magasins.edit', compact('magasin'));
