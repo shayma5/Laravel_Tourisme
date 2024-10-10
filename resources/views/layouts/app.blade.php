@@ -71,7 +71,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">shayma</a>
+                                    <a class="nav-link" href="{{ url('/maisondhote/')}}">hybergement</a>
                                 </li>
 
                                 <li class="nav-item">

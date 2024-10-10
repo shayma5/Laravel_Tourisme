@@ -91,9 +91,15 @@
                             <h4 class="text-section">Components</h4>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('hotels') }}">
-                                <i class="fas fa-layer-group"></i>
-                                <p>Hotels</p>
+                            <a href="{{ url('/maisons') }}">
+                                <i class="fas fa-home"></i>
+                                <p>Maisons</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/rooms') }}">
+                                <i class="fas fa-bed"></i>
+                                <p>Rooms</p>
                             </a>
                         </li>
                         <li class="nav-item">
