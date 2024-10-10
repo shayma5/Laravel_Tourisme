@@ -14,6 +14,27 @@ class SouvenirController extends Controller
         return view('backoffice.souvenirs.index', compact('souvenirs'));
     }
 
+    public function publicIndex(Request $request)
+    {
+        $query = Souvenir::query();
+    
+        // Si des magasins sont sélectionnés via le filtre
+        if ($request->has('magasins') && !empty($request->magasins)) {
+            $query->whereIn('magasin_id', $request->magasins);
+        }
+    
+        $souvenirs = $query->get();
+        
+        // Récupérer les magasins avec le compte de souvenirs
+        $magasins = Magasin::withCount('souvenirs')->having('souvenirs_count', '>', 0)->get(); // Seuls les magasins ayant des souvenirs
+    
+        return view('layouts.SouvenirsArtisanat.souvenirs.index', compact('souvenirs', 'magasins'));
+    }
+    
+
+    
+
+
 
     public function souvenirsParMagasin(Magasin $magasin)
     {
@@ -52,6 +73,12 @@ class SouvenirController extends Controller
     {
         return view('backoffice.souvenirs.show', compact('souvenir'));
     }
+
+    public function showPublic(Souvenir $souvenir)
+{
+    return view('layouts.SouvenirsArtisanat.souvenirs.show', compact('souvenir'));
+}
+
 
     public function edit(Souvenir $souvenir)
     {

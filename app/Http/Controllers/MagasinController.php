@@ -63,12 +63,12 @@ class MagasinController extends Controller
 
 
     public function showPublic(Magasin $magasin)
-{
-    // Charger seulement les souvenirs du magasin
-    $magasin->load('souvenirs');
+    {
+        // Charger seulement les souvenirs du magasin
+        $magasin->load('souvenirs');
 
-    return view('layouts.SouvenirsArtisanat.magasins.show', compact('magasin'));
-}
+        return view('layouts.SouvenirsArtisanat.magasins.show', compact('magasin'));
+    }
 
 
 

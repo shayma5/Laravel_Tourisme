@@ -2,49 +2,120 @@
 
 @section('content')
 
+
+<section class="hero-section d-flex justify-content-center align-items-center">
+            <div class="section-overlay"></div>
+
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-6 col-12 mb-5 mb-lg-0">
+                        <div class="hero-section-text mt-5">
+                            <h6 class="text-white">Is it possible to enjoy nature and preserve it?</h6>
+
+                            <h1 class="hero-title text-white mt-4 mb-4">Absolutely! <br>We can makes it happen</h1>
+
+                            <a href="#categories-section" class="custom-btn custom-border-btn btn">Browse Categories</a>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </section>
+
+
+
 <section class="job-section recent-jobs-section section-padding">
     <div class="container">
         <div class="row align-items-center">
 
+
+        <!-- Section de filtre par magasin -->
+<!-- Section de filtre par magasin -->
+<form  action="{{ route('layouts.SouvenirsArtisanat.souvenirs.index') }}" method="GET">
+    <div class="form-group">
+    <div class="col-lg-6 col-12 mb-4">
+                <p><strong>Filtrer par magasin</strong></p>
+            </div>
+
+
+        <div class="row">
+            @foreach($magasins as $magasin)
+                <div class="col-lg-2 col-md-4 col-6">
+                    <div class="categories-block">
+                        <label class="d-flex flex-column justify-content-center align-items-center h-100">
+                            <input type="checkbox" name="magasins[]" value="{{ $magasin->id }}" class="selectgroup-input" />
+                            <i class="categories-icon bi-window"></i>
+                            <small class="categories-block-title">{{ $magasin->nomMagasin }}</small>
+                            <div class="categories-block-number d-flex flex-column justify-content-center align-items-center">
+                            <span class="categories-block-number-text">{{ $magasin->souvenirs_count }}</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+
+    <div class="d-flex">
+        <p class="mb-0">
+            <a href="#" class="badge badge-level">Submit</a>
+        </p>
+
+        <p class="mb-0">
+                <!-- Bouton pour afficher tous les souvenirs -->
+            <a href="{{ route('layouts.SouvenirsArtisanat.souvenirs.index') }}" class="btn btn-black">
+            <span class="btn-label">
+                <i class="fa fa-archive"></i>
+            Default
+        </span>
+    </a>
+        </p>
+    </div>
+
+    <!-- Bouton de confirmation -->
+    <button type="submit" class="btn btn-icon btn-round btn-success">
+        <i class="fa fa-check"></i>
+    </button>
+</form>
+
+
+
+
             <div class="col-lg-6 col-12 mb-4">
-                <h2>{{ $magasin->nom }}</h2>
-                <p><strong>{{ $magasin->adresse }}</strong></p>
+                <h2>All Souvenirs</h2>
+                <p><strong>Explorez les souvenirs de tous les magasins</strong></p>
             </div>
 
             <div class="clearfix"></div>
 
-            @foreach($magasin->souvenirs as $souvenir)
+            @foreach($souvenirs as $souvenir)
             <div class="col-lg-4 col-md-6 col-12">
                 <div class="job-thumb job-thumb-box">
                     <div class="job-image-box-wrap">
-                        <a href="{{ route('souvenirs.show', $souvenir->id) }}">
-                            <img src="{{ asset('storage/souvenirs/' . $souvenir->image) }}" class="job-image img-fluid" alt="{{ $souvenir->nom }}">
+                        <a href="{{ route('layouts.SouvenirsArtisanat.souvenirs.show', $souvenir->id) }}">
+                            <img src="{{ asset('storage/' . $souvenir->image) }}" class="job-image img-fluid" alt="{{ $souvenir->nom }}">
                         </a>
+                        <div class="job-image-box-wrap-info d-flex align-items-center">
+                            <p class="mb-0">
+                                <span class="badge">{{ $souvenir->magasin->nom }}</span>
+                            </p>
+                        </div>
                     </div>
 
                     <div class="job-body">
                         <h4 class="job-title">
                             <a href="{{ route('layouts.SouvenirsArtisanat.souvenirs.show', $souvenir->id) }}" class="job-title-link">{{ $souvenir->nom }}</a>
                         </h4>
-
-                        <div class="d-flex align-items-center">
-                            <p class="job-location mb-0">
-                                <i class="custom-icon bi-geo-alt me-1"></i>
-                                {{ $magasin->adresse }}
-                            </p>
-
-                            <p class="job-date mb-0">
-                                <i class="custom-icon bi-clock me-1"></i>
-                                {{ $souvenir->created_at->diffForHumans() }}
-                            </p>
-                        </div>
+                        <p class="job-location mb-0">{{ $souvenir->description }}</p>
 
                         <div class="d-flex align-items-center border-top pt-3">
                             <p class="job-price mb-0">
                                 <i class="custom-icon bi-cash me-1"></i>
                                 {{ $souvenir->prix }}€
                             </p>
-
                             <a href="{{ route('layouts.SouvenirsArtisanat.souvenirs.show', $souvenir->id) }}" class="custom-btn btn ms-auto">Voir Détails</a>
                         </div>
                     </div>
@@ -191,6 +262,7 @@
             </div>
         </div>
 </footer>
-@endsection
 
+
+@endsection
 

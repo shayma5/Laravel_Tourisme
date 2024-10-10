@@ -69,7 +69,7 @@
 
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdownSouvenirs">
                                         <a class="dropdown-item" href="{{ route('layouts.SouvenirsArtisanat.magasins.index') }}">Nos magasins</a>
-                                            <a class="dropdown-item" href="#">Nos Souvenirs</a>
+                                            <a class="dropdown-item" href="{{ route('layouts.SouvenirsArtisanat.souvenirs.index') }}">Nos Souvenirs</a>
                                             <a class="dropdown-item" href="#">Offres Spéciales</a>
                                         </div>
                                     </li>

@@ -18,7 +18,7 @@
                 @foreach($magasin->souvenirs as $souvenir)
                 <div class="job-thumb d-flex">
                     <div class="job-image-wrap bg-white shadow-lg">
-                        <img src="{{ asset('storage/souvenirs/' . $souvenir->image) }}" class="job-image img-fluid" alt="{{ $souvenir->nom }}">
+                        <img src="{{ asset('storage/' . $souvenir->image) }}" class="job-image img-fluid" alt="{{ $souvenir->nom }}">
                     </div>
 
                     <div class="job-body d-flex flex-wrap flex-auto align-items-center ms-4">
@@ -41,7 +41,7 @@
 
                         <div class="job-section-btn-wrap">
                         
-                            <a href="{{ route('layouts.SouvenirsArtisanat.magasins.indexSouvenirMagasin', $magasin->id) }}" class="custom-btn btn">Voir Détails</a>
+                            <a href="{{ route('layouts.SouvenirsArtisanat.souvenirs.show', $souvenir->id) }}" class="custom-btn btn">Voir Détails</a>
                         </div>
 
                     </div>
