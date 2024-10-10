@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\MaisonDhauteController;
+use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,10 +23,26 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+
 Route::get('/admin/dashboard', function () {
     return view('backoffice.dashboard');
 })->middleware('auth');
 
-Route::get('/hotels', function () {
-    return view('backoffice.hotels');
-})->name('hotels');
+
+
+
+
+Route::resource('rooms', RoomController::class)->names(['index' => 'backoffice.room.rooms']);
+
+Route::group(['prefix' => 'backoffice', 'as' => 'backoffice.'], function() {
+    Route::resource('room', RoomController::class);
+});
+
+Route::resource('maisons', MaisonDhauteController::class)->names([
+    'index' => 'backoffice.maisons'
+]);
+
+Route::resource('maisondhote', MaisonDhauteController::class);
+
+
