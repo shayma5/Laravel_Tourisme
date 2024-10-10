@@ -17,6 +17,12 @@ class EventController extends Controller
         $events = Events::all();
         return view ('backoffice.events.index')->with('events', $events);
     }
+
+    public function indexFrontOffice()
+    {
+        $events = Events::all(); // Récupérer tous les événements
+        return view('frontoffice.events.index', compact('events')); // Passer les événements à la vue
+    }
  
     /**
      * Show the form for creating a new resource.
@@ -36,13 +42,28 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        $requestData = $request->all();
+        // Règles de validation
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'type' => 'required|string|max:100',
+            'start_date' => 'required|date|after:today',
+            'end_date' => 'required|date|after:start_date',
+            'location' => 'required|string|max:255',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Traitement de l'image
         $fileName = time().$request->file('photo')->getClientOriginalName();
         $path = $request->file('photo')->storeAs('images', $fileName, 'public');
-        $requestData["photo"] = '/storage/'.$path;
-        Events::create($requestData);
-        return redirect('event')->with('flash_message', 'Event Addedd!');
+        $validatedData["photo"] = '/storage/'.$path;
+
+        // Enregistrement des données validées
+        Events::create($validatedData);
+        
+        return redirect('event')->with('flash_message', 'Event ajouté avec succès!');
     }
+
 
     /**
      * Display the specified resource.
@@ -77,11 +98,32 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Règles de validation
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'type' => 'required|string|max:100',
+            'start_date' => 'required|date|after:today',
+            'end_date' => 'required|date|after:start_date',
+            'location' => 'required|string|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
         $event = Events::find($id);
-        $input = $request->all();
-        $event->update($input);
-        return redirect('event')->with('flash_message', 'event Updated!');  
+
+        // Si une nouvelle photo est fournie, on la traite
+        if ($request->hasFile('photo')) {
+            $fileName = time().$request->file('photo')->getClientOriginalName();
+            $path = $request->file('photo')->storeAs('images', $fileName, 'public');
+            $validatedData["photo"] = '/storage/'.$path;
+        }
+
+        // Mise à jour des données validées
+        $event->update($validatedData);
+        
+        return redirect('event')->with('flash_message', 'Événement mis à jour avec succès!');
     }
+
  
     /**
      * Remove the specified resource from storage.

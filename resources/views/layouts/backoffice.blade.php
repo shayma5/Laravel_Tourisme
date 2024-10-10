@@ -93,13 +93,13 @@
                         <li class="nav-item">
                             <a href="{{ route('hotels') }}">
                                 <i class="fas fa-layer-group"></i>
-                                <p>Events</p>
+                                <p>Hotels</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ url('/event') }}">
                                 <i class="fas fa-layer-group"></i>
-                                <p>Hotels</p>
+                                <p>Events</p>
                             </a>
                         </li>
                         

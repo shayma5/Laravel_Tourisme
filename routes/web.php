@@ -28,10 +28,7 @@ Route::get('/admin/dashboard', function () {
 Route::get('/hotels', function () {
     return view('backoffice.hotels');
 })->name('hotels');
-//Route::get('/events', [EventController::class, 'index'])->name('events.index');
+
 Route::resource("/event", EventController::class);
 
-//Route::get('/events', [EventController::class, 'index'])->name('events.index');
-//Route::resource("/event", EventController::class)->name('events');
-//Route::get('/event', [EventController::class, 'index'])->name('event');
 
