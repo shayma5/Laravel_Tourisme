@@ -5,6 +5,7 @@ use App\Http\Controllers\CampagnePromotionnelleController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\MagasinController;
 use App\Http\Controllers\SouvenirController;
+use App\Http\Controllers\StripePaymentController;
 
 
 /*
@@ -76,6 +77,23 @@ Route::get('/home/magasins/{magasin}', [MagasinController::class, 'showPublic'])
 Route::get('/home/souvenirs', [SouvenirController::class, 'publicIndex'])->name('layouts.SouvenirsArtisanat.souvenirs.index');
 
 Route::get('/home/souvenirs/{souvenir}', [SouvenirController::class, 'showPublic'])->name('layouts.SouvenirsArtisanat.souvenirs.show');
+
+
+
+
+
+// Route::post('home/souvenirs/{id}/acheter', [SouvenirController::class, 'acheterSouvenir'])->name('layouts.SouvenirsArtisanat.souvenirs.payment.initiate');
+
+
+
+
+Route::get('/home/stripe-payment/{id}', [SouvenirController::class, 'payment'])->name('layouts.SouvenirsArtisanat.souvenirs.payment.payment');
+
+Route::post('/home/stripe-payment', [StripePaymentController::class, 'handlePost'])->name('layouts.SouvenirsArtisanat.souvenirs.payment.confirm');
+
+Route::get('/home/thank-you', function () {
+    return view('layouts.SouvenirsArtisanat.souvenirs.payment.thankyou');
+})->name('layouts.SouvenirsArtisanat.souvenirs.payment.thankyou');
 
 
 

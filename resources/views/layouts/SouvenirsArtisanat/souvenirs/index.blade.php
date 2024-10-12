@@ -60,31 +60,33 @@
     </div>
 
     <div class="d-flex">
-        <p class="mb-0">
-            <a href="#" class="badge badge-level">Submit</a>
-        </p>
+
+
+        <button type="submit" class="badge badge-level">
+            Submit
+        </button>
 
         <p class="mb-0">
                 <!-- Bouton pour afficher tous les souvenirs -->
-            <a href="{{ route('layouts.SouvenirsArtisanat.souvenirs.index') }}" class="btn btn-black">
-            <span class="btn-label">
-                <i class="fa fa-archive"></i>
-            Default
-        </span>
-    </a>
+            <a href="{{ route('layouts.SouvenirsArtisanat.souvenirs.index') }}" class="badge">
+                <span class="btn-label">
+                    <i class="fa fa-archive"></i>
+                Default
+                </span>
+            </a>
         </p>
     </div>
 
-    <!-- Bouton de confirmation -->
-    <button type="submit" class="btn btn-icon btn-round btn-success">
-        <i class="fa fa-check"></i>
-    </button>
 </form>
 
 
 
 
+
             <div class="col-lg-6 col-12 mb-4">
+
+            <br/>
+            <hr/>
                 <h2>All Souvenirs</h2>
                 <p><strong>Explorez les souvenirs de tous les magasins</strong></p>
             </div>

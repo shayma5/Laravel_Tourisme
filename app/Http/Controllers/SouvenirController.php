@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Souvenir;
 use Illuminate\Http\Request;
 use App\Models\Magasin;
+use App\Services\StripeService;
+
 
 class SouvenirController extends Controller
 {
@@ -115,4 +117,35 @@ class SouvenirController extends Controller
 
         return redirect()->route('souvenirs.index')->with('success', 'Souvenir supprimé avec succès.');
     }
+
+
+
+    public function payment($id)
+{
+    $souvenir = Souvenir::find($id);
+    return view('layouts.SouvenirsArtisanat.souvenirs.payment.payment', compact('souvenir'));
+}
+
+
+
+//     public function acheterSouvenir($id, Request $request, StripeService $stripeService)
+// {
+
+
+//     // Récupérer le souvenir par ID
+//     $souvenir = Souvenir::findOrFail($id);
+
+//     // Créer un Payment Intent avec Stripe
+//     $paymentIntent = $stripeService->createPaymentIntent($souvenir->prix); // Le prix en centimes
+    
+//     if (isset($paymentIntent['id'])) {
+//         // Rediriger vers la page de confirmation ou afficher les détails du paiement
+//         dd("je suis là");
+//         return view('layouts.SouvenirsArtisanat.souvenirs.payment.initiate', ['paymentIntent' => $paymentIntent, 'souvenir' => $souvenir]);
+//     } else {
+//         dd("je suis làaaaa");
+//         return back()->withErrors(['message' => 'Le paiement a échoué, veuillez réessayer.']);
+//     }
+// }
+
 }

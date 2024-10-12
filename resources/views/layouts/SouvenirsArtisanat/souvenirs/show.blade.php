@@ -25,7 +25,15 @@
                                 <i class="custom-icon bi-cash me-1"></i>
                                 {{ $souvenir->prix }}€
                             </p>
-                            <a href="#" class="custom-btn btn">Acheter maintenant</a>
+                            
+
+
+                            <form action="{{ route('layouts.SouvenirsArtisanat.souvenirs.payment.payment', $souvenir->id) }}" method="GET">
+                                @csrf
+                                <button type="submit" class="custom-btn btn">Acheter maintenant !</button>
+                            </form>
+
+
                         </div>
                     </div>
                 </div>
