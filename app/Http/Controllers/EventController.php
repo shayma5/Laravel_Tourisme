@@ -18,12 +18,7 @@ class EventController extends Controller
         return view ('backoffice.events.index')->with('events', $events);
     }
 
-    public function indexFrontOffice()
-    {
-        $events = Events::all(); // Récupérer tous les événements
-        return view('frontoffice.events.index', compact('events')); // Passer les événements à la vue
-    }
- 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -47,6 +42,8 @@ class EventController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'type' => 'required|string|max:100',
+            'price' => 'required|numeric|min:0',
+            'nbParticipant' => 'required|integer|min:0',
             'start_date' => 'required|date|after:today',
             'end_date' => 'required|date|after:start_date',
             'location' => 'required|string|max:255',
@@ -103,6 +100,8 @@ class EventController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'type' => 'required|string|max:100',
+            'price' => 'required|numeric|min:0',
+            'nbParticipant' => 'required|integer|min:0',
             'start_date' => 'required|date|after:today',
             'end_date' => 'required|date|after:start_date',
             'location' => 'required|string|max:255',
@@ -135,5 +134,17 @@ class EventController extends Controller
     {
         Events::destroy($id);
         return redirect('event')->with('flash_message', 'Event deleted!');  
+    }
+
+
+    public function indexFrontOffice()
+    {
+        $events = Events::all(); // Récupérer tous les événements
+        return view('layouts.events.index', compact('events')); // Passer les événements à la vue
+    }
+    public function showFrontOffice($id)
+    {
+        $event = Events::findOrFail($id); // Récupère l'événement ou lance une erreur 404
+        return view('layouts.events.show', compact('event'));
     }
 }

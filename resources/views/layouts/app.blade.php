@@ -79,9 +79,9 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">rahma</a>
+                                    <a class="nav-link" href="{{ route('events.index') }}" aria-label="Voir les événements">Événements</a>
                                 </li>
-
+                                
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">skon</a>
                                 </li>

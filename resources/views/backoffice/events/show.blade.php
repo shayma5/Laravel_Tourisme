@@ -25,6 +25,8 @@
                     <h5 class="card-title">Name : {{ $events->name }}</h5>
                     <p class="card-text">Description : {{ $events->description }}</p>
                     <p class="card-text">Type : {{ $events->type }}</p>
+                    <p class="card-text"> Participants : {{ $events->nbParticipant }}</p>
+                    <p class="card-text">Price : {{ $events->price }}</p>
                     <p class="card-text">Start date : {{ $events->start_date }}</p>
                     <p class="card-text">End date : {{ $events->end_date }}</p>
                     <p class="card-text">Location : {{ $events->location }}</p>

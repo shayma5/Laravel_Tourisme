@@ -7,24 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Participation extends Model
 {
-    protected $fillable = ['participant_id', 'event_id', 'activity_id'];
+    protected $fillable = ['participant_id', 'event_id', 'reserved_places'];
 
-    // Relation : Une inscription appartient à un participant
-    public function participant()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    // Relation : Une inscription peut être liée à un événement
     public function event()
     {
-        return $this->belongsTo(Event::class);
+        return $this->belongsTo(Events::class, 'event_id');
     }
 
-    // Relation : Une inscription peut être liée à une activité
-    public function activity()
+    public function participant()
     {
-        return $this->belongsTo(Activity::class);
+        return $this->belongsTo(User::class, 'participant_id');
     }
+
+
+    
     use HasFactory;
 }

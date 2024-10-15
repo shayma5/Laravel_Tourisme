@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ParticipatioEventController; 
 
 /*
 |--------------------------------------------------------------------------
@@ -30,5 +31,11 @@ Route::get('/hotels', function () {
 })->name('hotels');
 
 Route::resource("/event", EventController::class);
+Route::resource("/participation", ParticipatioEventController::class);
+Route::get('/events', [EventController::class, 'indexFrontOffice'])->name('events.index');
+Route::get('/events/{id}', [EventController::class, 'showFrontOffice'])->name('events.show');
+// Route pour la réservation
+Route::post('/events/{event}/reserve', [ParticipatioEventController::class, 'reserve'])->name('events.reserve');
+
 
 

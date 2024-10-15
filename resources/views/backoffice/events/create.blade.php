@@ -29,6 +29,20 @@
       @endif
       </br>
       
+      <label>Prix</label></br>
+      <input type="number" name="price" id="price" step="0.01" class="form-control">
+      @if ($errors->has('price'))
+          <span class="text-danger">{{ $errors->first('price') }}</span>
+      @endif
+      </br>
+
+      <label>Nombre de participants</label></br>
+      <input type="number" name="nbParticipant" id="nbParticipant" class="form-control">
+      @if ($errors->has('nbParticipant'))
+          <span class="text-danger">{{ $errors->first('nbParticipant') }}</span>
+      @endif
+      </br>
+      
       <label for="start_date">Date de début</label><br>
       <input type="datetime-local" name="start_date" id="start_date" class="form-control">
       @if ($errors->has('start_date'))

@@ -9,13 +9,15 @@ class Events extends Model
 {
     use HasFactory;
     protected $primaryKey = 'id';
-    protected $fillable = ['name', 'description', 'photo', 'start_date', 'end_date', 'location','type'];
+    protected $fillable = ['name', 'description', 'photo', 'start_date', 'end_date', 'location','type', 'price', 'nbParticipant'];
     protected $table = 'events';
-    // Relation : Un événement peut avoir plusieurs activités
-    public function activities()
-    {
-        return $this->hasMany(Activity::class);
-    }
     
+    
+
+    public function participations()
+{
+    return $this->hasMany(Participation::class, 'event_id');
+}
+
 
 }
