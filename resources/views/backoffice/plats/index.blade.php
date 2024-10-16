@@ -49,6 +49,10 @@
             @endforeach
         </tbody>
     </table>
+     <!-- Ajout de la pagination -->
+     <div class="d-flex justify-content-center">
+        {{ $plats->links('vendor.pagination.custom') }} <!-- Assurez-vous que le chemin est correct -->
+    </div>
 </div>
 
 <script>

@@ -56,6 +56,10 @@
             @endforeach
         </tbody>
     </table>
+    <!-- Pagination links -->
+    <div class="d-flex justify-content-center">
+        {{ $restaurants->links('vendor.pagination.custom') }} <!-- Assurez-vous que le chemin est correct -->
+    </div>
 </div>
 
 <!-- Script pour la recherche dynamique avec AJAX -->

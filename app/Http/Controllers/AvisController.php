@@ -21,7 +21,7 @@ class AvisController extends Controller
                          ->orWhereHas('restaurant', function($query) use ($search) {
                              $query->where('nom', 'like', "%{$search}%");
                          });
-        })->get();
+                        })->paginate(5);
     
     // Si la requête est AJAX, retourner uniquement les lignes du tableau
     if ($request->ajax()) {

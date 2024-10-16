@@ -14,7 +14,7 @@ class RestaurantController extends Controller
     // Rechercher les restaurants
     $restaurants = Restaurant::when($search, function ($query, $search) {
         return $query->where('nom', 'like', "%{$search}%");
-    })->get();
+    })->paginate(5);
     
     // Si la requête est AJAX, retourner uniquement les lignes du tableau
     if ($request->ajax()) {

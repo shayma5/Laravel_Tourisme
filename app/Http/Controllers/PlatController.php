@@ -16,7 +16,8 @@ class PlatController extends Controller
         // Rechercher les plats
         $plats = Plat::when($search, function ($query, $search) {
             return $query->where('nomPlat', 'like', "%{$search}%");
-        })->get();
+        // })->get();
+    })->paginate(5);
         
         // Si la requête est AJAX, retourner uniquement les lignes du tableau
         if ($request->ajax()) {
@@ -24,7 +25,7 @@ class PlatController extends Controller
             foreach ($plats as $plat) {
                 $output .= '
                     <tr>
-                        <td>'.$plat->id.'</td>
+                        
                         <td>'.$plat->nomPlat.'</td>
                         <td>'.$plat->type.'</td>
                         <td>'.$plat->prix.'€</td>

@@ -41,8 +41,12 @@
             @endforeach
         </tbody>
     </table>
+     <!-- Ajout de la pagination -->
+     <div class="d-flex justify-content-center">
+        {{ $avis->links('vendor.pagination.custom') }} <!-- Assurez-vous que le chemin est correct -->
+    </div>
 
-    <a href="{{ route('avis.create') }}" class="btn btn-primary">Ajouter un Avis</a>
+    <!-- <a href="{{ route('avis.create') }}" class="btn btn-primary">Ajouter un Avis</a> -->
 </div>
 
 <script>
