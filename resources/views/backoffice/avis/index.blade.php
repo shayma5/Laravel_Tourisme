@@ -4,6 +4,9 @@
 <div class="container">
     <h1>Liste des Avis</h1>
     
+    <!-- Search input -->
+    <input type="text" id="search" class="form-control" placeholder="Rechercher un avis...">
+    
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
@@ -19,7 +22,7 @@
                 <th>Actions</th> <!-- Nouvelle colonne pour les actions -->
             </tr>
         </thead>
-        <tbody>
+        <tbody id="avisTableBody">
             @foreach($avis as $avisItem)
                 <tr>
                     <td>{{ $avisItem->nomClient }}</td>
@@ -41,4 +44,20 @@
 
     <a href="{{ route('avis.create') }}" class="btn btn-primary">Ajouter un Avis</a>
 </div>
+
+<script>
+    document.getElementById('search').addEventListener('keyup', function() {
+        var search = this.value;
+
+        fetch("{{ route('avis.index') }}?search=" + search, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('avisTableBody').innerHTML = html;
+        });
+    });
+</script>
 @endsection

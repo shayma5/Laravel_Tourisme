@@ -9,11 +9,49 @@ use App\Models\Restaurant;
 class PlatController extends Controller
 {
     // Afficher tous les plats
-    public function index()
+    public function index(Request $request)
     {
-        $plats = Plat::all();
-        return view('backoffice.plats.index', compact('plats'));
+        $search = $request->get('search');
+        
+        // Rechercher les plats
+        $plats = Plat::when($search, function ($query, $search) {
+            return $query->where('nomPlat', 'like', "%{$search}%");
+        })->get();
+        
+        // Si la requête est AJAX, retourner uniquement les lignes du tableau
+        if ($request->ajax()) {
+            $output = '';
+            foreach ($plats as $plat) {
+                $output .= '
+                    <tr>
+                        <td>'.$plat->id.'</td>
+                        <td>'.$plat->nomPlat.'</td>
+                        <td>'.$plat->type.'</td>
+                        <td>'.$plat->prix.'€</td>
+                        <td>';
+                if ($plat->imageUrl) {
+                    $output .= '<img src="'.asset('storage/'.$plat->imageUrl).'" alt="Image" width="100">';
+                } else {
+                    $output .= 'Pas d\'image';
+                }
+                $output .= '</td>
+                        <td>
+                            <a href="'.route('plats.show', $plat->id).'" class="btn btn-info">Voir</a>
+                            <a href="'.route('plats.edit', $plat->id).'" class="btn btn-warning">Éditer</a>
+                            <form action="'.route('plats.destroy', $plat->id).'" method="POST" style="display:inline;">
+                                '.csrf_field().'
+                                '.method_field('DELETE').'
+                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>';
+            }
+            return $output;
+        }
+    
+        return view('backoffice.plats.index', compact('plats', 'search'));
     }
+    
 
     
 
@@ -32,8 +70,8 @@ class PlatController extends Controller
              'nomPlat' => 'required|string|max:255',
              'type' => 'required|string|max:255',
              'prix' => 'required|numeric',
-             'description' => 'nullable|string',
-             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
+             'description' => 'required|nullable|string',
+             'image' => 'required|nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
              'restaurant_id' => 'required|exists:restaurants,id', // Validation de l'association avec restaurant
          ]);
      

@@ -134,23 +134,46 @@ class RestaurantController extends Controller
         return view('backoffice.restaurants.edit', compact('restaurant')); // Affiche le formulaire d'édition
     }
 
-    // Mettre à jour un restaurant dans la base de données
     public function update(Request $request, $id)
     {
-        $request->validate([ // Validation des données
+        $request->validate([
             'nom' => 'required',
             'adresse' => 'required',
-            'siteWeb' => 'nullable|url',
-            'telephone' => 'nullable|string',
-            'description' => 'nullable|string',
-            'noteMoyenne' => 'nullable|numeric',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation de l'image
+            'siteWeb' => 'required|nullable|url',
+            'telephone' => 'required|nullable|string',
+            'description' => 'required|nullable|string',
+            'noteMoyenne' => 'required|nullable|numeric',
+            'image' => 'required|nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
-        $restaurant = Restaurant::findOrFail($id); // Trouver le restaurant par ID
-        $restaurant->update($request->all()); // Mettre à jour le restaurant
+    
+        $restaurant = Restaurant::findOrFail($id);
+    
+        // Gestion de l'image
+        if ($request->hasFile('image')) {
+            // Supprimer l'ancienne image si elle existe
+        
+            
+            // Sauvegarder la nouvelle image
+            $image = $request->file('image')->store('images/restaurants', 'public');
+            $restaurant->image = $image; // Mettre à jour le chemin de l'image
+        }
+    
+        // Mise à jour des autres champs
+        $restaurant->update([
+            'nom' => $request->nom,
+            'adresse' => $request->adresse,
+            'siteWeb' => $request->siteWeb,
+            'telephone' => $request->telephone,
+            'description' => $request->description,
+            'noteMoyenne' => $request->noteMoyenne,
+            
+        ]);
+    
+        $restaurant->save(); // Sauvegarder les modifications
+    
         return redirect()->route('restaurants.index')->with('success', 'Restaurant mis à jour avec succès.');
     }
+    
 
     // Supprimer un restaurant de la base de données
     public function destroy($id)

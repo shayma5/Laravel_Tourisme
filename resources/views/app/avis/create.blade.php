@@ -19,7 +19,7 @@
 
         <div class="form-group">
             <label for="nomClient">Nom du client</label>
-            <input type="text" name="nomClient" class="form-control" id="nomClient" required>
+            <input type="text" name="nomClient" class="form-control" id="nomClient" value="{{ $user->name }}" readonly>
         </div>
 
         <div class="form-group">

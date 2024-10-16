@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Avis;
 use App\Models\Restaurant;
@@ -9,17 +9,46 @@ use App\Models\Restaurant;
 
 class AvisController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-       // Charger les avis avec leurs restaurants
-           $avis = Avis::with('restaurant')->get(); 
-           return view('backoffice.avis.index', compact('avis'));
+    public function index(Request $request)
+{
+    $search = $request->get('search');
+    
+    // Rechercher les avis avec leurs restaurants
+    $avis = Avis::with('restaurant')
+        ->when($search, function ($query, $search) {
+            return $query->where('nomClient', 'like', "%{$search}%")
+                         ->orWhere('commentaire', 'like', "%{$search}%")
+                         ->orWhereHas('restaurant', function($query) use ($search) {
+                             $query->where('nom', 'like', "%{$search}%");
+                         });
+        })->get();
+    
+    // Si la requête est AJAX, retourner uniquement les lignes du tableau
+    if ($request->ajax()) {
+        $output = '';
+        foreach ($avis as $avisItem) {
+            $output .= '
+                <tr>
+                    <td>'.$avisItem->nomClient.'</td>
+                    <td>'.$avisItem->note.'</td>
+                    <td>'.$avisItem->commentaire.'</td>
+                    <td>'.$avisItem->dateAvis.'</td>
+                    <td>'.($avisItem->restaurant ? $avisItem->restaurant->nom : 'Inconnu').'</td>
+                    <td>
+                        <form action="'.route('avis.destroy', $avisItem->id).'" method="POST" onsubmit="return confirm(\'Êtes-vous sûr de vouloir supprimer cet avis ?\');">
+                            '.csrf_field().'
+                            '.method_field('DELETE').'
+                            <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>';
+        }
+        return $output;
     }
+
+    return view('backoffice.avis.index', compact('avis', 'search'));
+}
+
 
     /**
      * Show the form for creating a new resource.
@@ -29,7 +58,8 @@ class AvisController extends Controller
     public function create()
     {
         $restaurants = Restaurant::all(); // Récupérer tous les restaurants
-        return view('app.avis.create', compact('restaurants')); 
+        $user = auth()->user(); // Récupérer l'utilisateur connecté
+        return view('app.avis.create', compact('restaurants', 'user'));  
     }
 
     /**
@@ -44,9 +74,12 @@ class AvisController extends Controller
         $request->validate([
             'nomClient' => 'required|string|max:255',
             'note' => 'required|integer|min:1|max:5', // Limiter la note entre 1 et 5 (ou 10 selon votre choix)
-            'commentaire' => 'nullable|string',
+            'commentaire' => 'required|nullable|string',
             'restaurant_id' => 'required|exists:restaurants,id',
         ]);
+
+        // Récupérer l'utilisateur connecté
+        $user = auth()->user();
 
         // Créer un nouvel avis
         $avis = Avis::create([

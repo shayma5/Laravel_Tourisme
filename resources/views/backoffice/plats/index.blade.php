@@ -2,15 +2,17 @@
 
 @section('content')
 <div class="container">
-
-
     <h1>Liste des plats</h1>
     <a href="{{ route('plats.create') }}" class="btn btn-primary">Ajouter un plat</a>
 
+    <!-- Search input -->
+    <input type="text" id="search" class="form-control" placeholder="Rechercher un plat...">
+    
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    <!-- Table to display plats -->
     <table class="table">
         <thead>
             <tr>
@@ -21,7 +23,7 @@
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="platTableBody">
             @foreach($plats as $plat)
                 <tr>
                     <td>{{ $plat->nomPlat }}</td>
@@ -47,5 +49,21 @@
             @endforeach
         </tbody>
     </table>
-    </div>
+</div>
+
+<script>
+    document.getElementById('search').addEventListener('keyup', function() {
+        var search = this.value;
+
+        fetch("{{ route('plats.index') }}?search=" + search, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.text())
+        .then(html => {
+            document.getElementById('platTableBody').innerHTML = html;
+        });
+    });
+</script>
 @endsection
