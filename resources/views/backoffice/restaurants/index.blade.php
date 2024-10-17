@@ -23,8 +23,9 @@
     <table class="table mt-3">
         <thead>
             <tr>
-                <th>ID</th>
+              
                 <th>Nom</th>
+                <th>noteMoyenne</th>
                 <th>Image</th>
                 <th>Adresse</th>
                 <th>Actions</th>
@@ -33,8 +34,9 @@
         <tbody id="restaurant-list">
             @foreach($restaurants as $restaurant)
                 <tr>
-                    <td>{{ $restaurant->id }}</td>
+                    
                     <td>{{ $restaurant->nom }}</td>
+                    <td>{{ $restaurant->noteMoyenne }}</td>
                     <td>
                         @if($restaurant->image)
                             <img src="{{ asset('storage/' . $restaurant->image) }}" alt="Image" width="100">
@@ -49,7 +51,7 @@
                         <form action="{{ route('restaurants.destroy', $restaurant->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                          <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce restaurant ?')">Supprimer</button
                         </form>
                     </td>
                 </tr>

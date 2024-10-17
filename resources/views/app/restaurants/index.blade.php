@@ -1,9 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container mt-5">
     <h1 class="text-center mb-4">Restaurants</h1>
-
+    <div class="container mt-4">
+    <form action="{{ route('restaurants.app') }}" method="GET" class="form-inline" id="filterForm">
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="type" class="sr-only">Type de Plat</label>
+            <select name="type" id="type" class="form-control" onchange="document.getElementById('filterForm').submit();">
+                <option value="">Sélectionnez un type de plat</option>
+                <option value="all" {{ request('type') == 'all' ? 'selected' : '' }}>Tous les types</option>
+                @foreach ($types as $type)
+                    <option value="{{ $type }}" {{ request('type') == $type ? 'selected' : '' }}>{{ $type }}</option>
+                @endforeach
+            </select>
+        </div>
+        <!-- Suppression du bouton "Filtrer" -->
+    </form>
+</div>
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -42,5 +56,22 @@
             </div>
         @endforeach
     </div>
+
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center">
+        {{ $restaurants->links('vendor.pagination.custom') }} <!-- Assurez-vous que le chemin est correct -->
+    </div>
 </div>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const typeSelect = document.getElementById('type');
+        typeSelect.addEventListener('change', function() {
+            document.getElementById('filterForm').submit();
+        });
+    });
+</script>
+
 @endsection

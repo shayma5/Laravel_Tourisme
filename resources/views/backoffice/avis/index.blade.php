@@ -5,7 +5,7 @@
     <h1>Liste des Avis</h1>
     
     <!-- Search input -->
-    <input type="text" id="search" class="form-control" placeholder="Rechercher un avis...">
+    <input type="text" id="search" class="form-control mt-3 mb-3" placeholder="Rechercher un avis...">
     
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>

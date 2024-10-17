@@ -9,7 +9,7 @@
                     <h1 class="card-title">{{ $restaurant->nom }}</h1>
                     <p><strong><i class="fas fa-map-marker-alt"></i> Adresse :</strong> {{ $restaurant->adresse }}</p>
                     <p><strong><i class="fas fa-globe"></i> Site Web :</strong> 
-                        <a href="{{ $restaurant->siteweb }}" target="_blank" class="text-decoration-none">{{ $restaurant->siteweb }}</a>
+                        <a href="{{ $restaurant->siteweb }}" target="_blank" class="text-decoration-none">{{ $restaurant->siteWeb }}</a>
                     </p>
                     <p><strong><i class="fas fa-phone"></i> Téléphone :</strong> {{ $restaurant->telephone }}</p>
 

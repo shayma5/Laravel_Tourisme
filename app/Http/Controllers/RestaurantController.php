@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Restaurant; 
+use App\Models\Plat; 
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
@@ -22,8 +23,9 @@ class RestaurantController extends Controller
         foreach ($restaurants as $restaurant) {
             $output .= '
                 <tr>
-                    <td>'.$restaurant->id.'</td>
+                   
                     <td>'.$restaurant->nom.'</td>
+                    <td>'.$restaurant->noteMoyenne.'</td>noteMoyenne
                     <td>';
             if ($restaurant->image) {
                 $output .= '<img src="'.asset('storage/'.$restaurant->image).'" alt="Image" width="100">';
@@ -52,18 +54,48 @@ class RestaurantController extends Controller
 
     
 
-    public function app()
-{
-    $restaurants = Restaurant::all();
+//     public function app()
+// {
 
-    // Vérifier le contenu de $restaurants
+//     $restaurants = Restaurant::paginate(4);
+    
+
+//     // Vérifier le contenu de $restaurants
+//     if ($restaurants->isEmpty()) {
+//         return "Aucun restaurant trouvé.";
+//     }
+
+//     return view('app.restaurants.index', compact('restaurants'));
+// }
+
+public function app(Request $request)
+{
+    $query = Restaurant::query();
+
+    // Récupérer les types de plats uniques
+    $types = Plat::distinct()->pluck('type');
+
+    // Vérifiez si un type de plat a été spécifié dans la requête
+    if ($request->has('type') && !empty($request->input('type'))) {
+        $type = $request->input('type');
+        if ($type !== 'all') { // Vérifiez si le type sélectionné n'est pas "all"
+            // Filtrer les restaurants par type de plat
+            $query->whereHas('plats', function ($q) use ($type) {
+                $q->where('type', $type);
+            });
+        }
+    }
+
+    // Récupérer les restaurants avec pagination
+    $restaurants = $query->paginate(4);
+
+    // Vérifiez si des restaurants ont été trouvés
     if ($restaurants->isEmpty()) {
         return "Aucun restaurant trouvé.";
     }
 
-    return view('app.restaurants.index', compact('restaurants'));
+    return view('app.restaurants.index', compact('restaurants', 'types'));
 }
-
    
 
    

@@ -6,7 +6,7 @@
     <a href="{{ route('plats.create') }}" class="btn btn-primary">Ajouter un plat</a>
 
     <!-- Search input -->
-    <input type="text" id="search" class="form-control" placeholder="Rechercher un plat...">
+    <input type="text" id="search" class="form-control mt-3 mb-3" placeholder="Rechercher un plat..." >
     
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -42,7 +42,7 @@
                         <form action="{{ route('plats.destroy', $plat->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce restaurant ?')">Supprimer</button
                         </form>
                     </td>
                 </tr>
