@@ -34,7 +34,7 @@
                         <form action="{{ route('avis.destroy', $avisItem->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet avis ?');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Supprimer</button>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette avis ?')">Supprimer</button>
                         </form>
                     </td>
                 </tr>

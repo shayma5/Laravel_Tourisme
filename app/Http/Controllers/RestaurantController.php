@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Restaurant; 
 use App\Models\Plat; 
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 class RestaurantController extends Controller
 {
@@ -152,8 +153,40 @@ public function app(Request $request)
 
     public function showFrontend($id)
     {
-        $restaurant = Restaurant::with('plats')->findOrFail($id); 
-        return view('app.restaurants.showrestaurant', compact('restaurant'));
+        // Récupérer le restaurant par ID
+        $restaurant = Restaurant::with('plats')->findOrFail($id);
+    
+        $latitude = null;
+        $longitude = null;
+    
+        if ($restaurant->adresse) {
+            $apiKey = '9Qtd9yLpa2dk4F6pq-5WMbLF543ZhoEXd8kgDrpZ4S4';
+            $client = new Client();
+    
+            try {
+                $response = $client->get("https://geocode.search.hereapi.com/v1/geocode", [
+                    'query' => [
+                        'q' => $restaurant->adresse,
+                        'apiKey' => $apiKey,
+                    ],
+                    'verify' => false // Désactiver la vérification SSL (pas recommandé en production)
+                ]);
+    
+                $data = json_decode($response->getBody(), true);
+                if (isset($data['items'][0]['position'])) {
+                    $latitude = $data['items'][0]['position']['lat'];
+                    $longitude = $data['items'][0]['position']['lng'];
+                } else {
+                    // Aucune position trouvée pour l'adresse
+                    \Log::warning('Aucune position trouvée pour l\'adresse : ' . $restaurant->adresse);
+                }
+            } catch (RequestException $e) {
+                // Gérer l'erreur (logger, afficher un message, etc.)
+                \Log::error('Erreur lors de la requête HERE API: ' . $e->getMessage());
+            }
+        }
+    
+        return view('app.restaurants.showrestaurant', compact('restaurant', 'latitude', 'longitude'));
     }
 
     
