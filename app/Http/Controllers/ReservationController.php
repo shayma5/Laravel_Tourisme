@@ -52,7 +52,7 @@ class ReservationController extends Controller
         $data['user_id'] = auth()->id();
         Reservation::create($data);
 
-        return redirect()->back()->with('success', 'Réservation effectuée avec succès.');
+        return redirect()->route('reservations.indexA_R')->with('success', 'Réservation créée avec succès!');
     }
     public function edit(Reservation $reservation)
     {

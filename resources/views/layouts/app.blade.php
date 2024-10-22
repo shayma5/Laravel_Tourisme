@@ -87,7 +87,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">taher</a>
+                                    <a class="nav-link" href="/reservations/tout">taher</a>
                                 </li>
 
                             </ul>

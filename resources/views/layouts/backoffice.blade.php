@@ -136,19 +136,29 @@
                         <li class="nav-item">
                             <a data-bs-toggle="collapse" href="#tables">
                                 <i class="fas fa-table"></i>
-                                <p>Tables</p>
+                                <p>Education </p>
                                 <span class="caret"></span>
                             </a>
                             <div class="collapse" id="tables">
                                 <ul class="nav nav-collapse">
                                     <li>
-                                        <a href="tables/tables.html">
-                                            <span class="sub-item">Basic Table</span>
+                                        <a href="/admin/dashboard/formations">
+                                            <span class="sub-item">formation</span>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="tables/datatables.html">
-                                            <span class="sub-item">Datatables</span>
+                                        <a href="/admin/dashboard/formateurs">
+                                            <span class="sub-item">formateur</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/dashboard/programmes">
+                                            <span class="sub-item">programme</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="/admin/dashboard/classes">
+                                            <span class="sub-item">classe</span>
                                         </a>
                                     </li>
                                 </ul>

@@ -65,14 +65,15 @@
             </div>
 
             <div class="col-lg-8 col-12 mx-auto">
-                <form class="custom-form contact-form" action="{{ route('reservations.store') }}" method="POST">
+                <div id="errorMessages" class="alert alert-danger" style="display: none;"></div>
+                <form class="custom-form contact-form" id="reservationForm" action="{{ route('reservations.store') }}" method="POST">
                     @csrf
                     <h2 class="text-center mb-4">Project in mind? Let’s Talk</h2>
                     <input type="hidden" name="formation_id" value="{{ $formation->id }}">
 
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-12">
-                            <label for="first-name">formateur</label>
+                            <label for="formateur">Formateur</label>
                             <select name="formateur_id" class="form-control" required>
                                 <option value="">Sélectionnez un formateur</option>
                                 @if ($formation->formateur)
@@ -82,7 +83,7 @@
                         </div>
 
                         <div class="col-lg-6 col-md-6 col-12">
-                            <label for="email">classe</label>
+                            <label for="classeSelect">Classe</label>
                             <select name="classe_id" class="form-control" id="classeSelect" required>
                                 <option value="">Sélectionnez une classe</option>
                                 @foreach ($formation->programmes as $programme)
@@ -94,7 +95,7 @@
                         </div>
 
                         <div class="col-lg-12 col-12">
-                            <label for="message">programme</label>
+                            <label for="programmeSelect">Programme</label>
                             <select name="programme_id" class="form-control" required>
                                 <option value="">Sélectionnez un programme</option>
                                 @foreach ($formation->programmes as $programme)
@@ -104,7 +105,7 @@
                         </div>
 
                         <div class="col-lg-4 col-md-4 col-6 mx-auto">
-                            <button type="submit" class="form-control">Send Message</button>
+                            <button type="submit" class="form-control">Envoyer</button>
                         </div>
                     </div>
                 </form>
@@ -130,15 +131,52 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-        const initialLat = "{{ $formation->latitude }}"; // Change this to your default latitude
-        const initialLon = "{{ $formation->longitude }}"; // Change this to your default longitude
+        const initialLat = "{{ $formation->latitude }}";
+        const initialLon = "{{ $formation->longitude }}";
         initMap(initialLat, initialLon);
+
+        const form = document.getElementById('reservationForm');
+        const errorMessages = document.getElementById('errorMessages');
+
+        form.addEventListener('submit', function(event) {
+            errorMessages.style.display = 'none'; // Reset error messages
+            errorMessages.innerHTML = ''; // Clear previous messages
+            let isValid = true;
+
+            const formateurId = form.querySelector('select[name="formateur_id"]').value;
+            const classeId = form.querySelector('select[name="classe_id"]').value;
+            const programmeId = form.querySelector('select[name="programme_id"]').value;
+
+            if (!formateurId) {
+                errorMessages.innerHTML += "<p>Veuillez sélectionner un formateur.</p>";
+                isValid = false;
+            }
+
+            if (!classeId) {
+                errorMessages.innerHTML += "<p>Veuillez sélectionner une classe.</p>";
+                isValid = false;
+            }
+
+            if (!programmeId) {
+                errorMessages.innerHTML += "<p>Veuillez sélectionner un programme.</p>";
+                isValid = false;
+            }
+
+            if (!isValid) {
+                errorMessages.style.display = 'block'; // Show error messages
+                event.preventDefault(); // Prevent form submission
+            }
+
+            else {
+            // Redirection après succès
+            form.action = '/reservations/'; // Changer l'URL d'action
+        }
+        });
 
         document.getElementById('classeSelect').addEventListener('change', function() {
             const selectedOption = this.options[this.selectedIndex];
             const localisation = selectedOption.getAttribute('data-localisation');
 
-            // Fetch the new coordinates based on localisation or address
             fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(localisation)}`)
                 .then(response => response.json())
                 .then(data => {
