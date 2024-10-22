@@ -9,10 +9,13 @@ use App\Models\Programme;
 class FormationController extends Controller
 {
     public function indexformation()
-    {
-        $formations = Formation::all(); // Utiliser all() pour la clarté
-        return view('formation.indexformation', compact('formations'));
-    }
+{
+    $formations = Formation::withCount('reservations')->get(); // Compte les réservations
+    $labels = $formations->pluck('name'); // Noms des formations
+    $data = $formations->pluck('reservations_count'); // Nombre de réservations
+
+    return view('formation.indexformation', compact('formations', 'labels', 'data'));
+}
 
     public function createformation()
     {

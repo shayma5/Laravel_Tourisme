@@ -18,7 +18,7 @@ class Programme extends Model
 
     public function formations()
     {
-        return $this->belongsToMany(Formation::class);
+        return $this->belongsToMany(Formation::class, 'formation_programme');
     }
     
   public function classes(){

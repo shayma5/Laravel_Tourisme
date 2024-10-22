@@ -25,6 +25,16 @@ class Formation extends Model
     }
     public function programmes()
     {
-        return $this->belongsToMany(Programme::class);
+        return $this->belongsToMany(Programme::class, 'formation_programme');
+    }
+
+    public function countUsersReserved()
+    {
+        return $this->reservations()->distinct('user_id')->count('user_id');
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
     }
 }

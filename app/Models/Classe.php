@@ -13,6 +13,7 @@ class Classe extends Model
     protected $fillable = [
         'name',
         'specialite',
+        'localisation',
         'programme_id'
     ];
 

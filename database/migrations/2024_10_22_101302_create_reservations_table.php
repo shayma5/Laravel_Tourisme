@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('classe', function (Blueprint $table) {
+        Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('specialite');
-            $table->string('localisation');
-
-            $table->foreignId('programme_id')->constrained('programme')->onDelete('cascade'); // Ajoute cette ligne    
+            $table->string('formation_id');
+            $table->string('formateur_id');
+            $table->string('classe_id');
+            $table->string('programme_id');
+            $table->unsignedBigInteger('user_id')->nullable(); // Ajouter ->nullable()
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('classe');
+        Schema::dropIfExists('reservations');
     }
 };

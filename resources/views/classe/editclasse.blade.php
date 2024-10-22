@@ -41,7 +41,11 @@
                                                         <textarea name="specialite" class="form-control">{{ old('specialite', $classe->specialite) }}</textarea>
                                                         @error('specialite') <span class="text-danger">{{ $message }}</span> @enderror
                                                     </div>
-                                                   
+                                                    <div class="mb-3">
+                                                        <label>localisation</label>
+                                                        <textarea name="localisation" class="form-control">{{ old('localisation', $classe->localisation) }}</textarea>
+                                                        @error('localisation') <span class="text-danger">{{ $message }}</span> @enderror
+                                                    </div>
                                                     <div class="mb-3">
     <label>Programme</label>
     <select name="programme_id" class="form-control">

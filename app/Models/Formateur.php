@@ -24,5 +24,15 @@ class Formateur extends Model
     {
         return $this->belongsToMany(Classe::class);
     }
+
+    public function formateurs()
+    {
+        return $this->belongsToMany(Formateur::class);
+    }
+
+    public function programme()
+    {
+        return $this->belongsTo(Programme::class);
+    }
     
 }

@@ -5,6 +5,8 @@ use App\Http\Controllers\ProgrammeController;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\FormateurController;
+use App\Http\Controllers\ReservationController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -74,3 +76,11 @@ Route::get('admin/dashboard/classes/{classe}/affecterCP', [FormateurController::
 Route::post('admin/dashboard/classes/{classe}/affecterCP', [FormateurController::class, 'storeAffectationCP'])->name('classes.affecterCF.store');
 Route::get('/admin/dashboard/classes', [ClasseController::class, 'indexclasse'])->name('classes.indexclasse');
 Route::get('/admin/dashboard/formateurs/{formateur}', [FormateurController::class, 'showCP'])->name('formateurs.showCP');
+
+
+//Route::resource('reservations', ReservationController::class);
+Route::get('/reservations/tout', [ReservationController::class, 'indexFor'])->name('reservations.indexR');
+Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+Route::get('/reservations/Ar', [ReservationController::class, 'index'])->name('reservations.indexA_R');
+Route::resource('reservations', ReservationController::class);
+Route::get('reservations/create/{formation_id}', [ReservationController::class, 'createe'])->name('reservations.createR');

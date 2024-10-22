@@ -26,11 +26,13 @@ class ClasseController extends Controller
             'name' => 'required|max:255|string',
 
             'specialite' => 'required|max:255|string',
+            'localisation' => 'required|max:255|string',
+
             'programme_id' => 'required|exists:programme,id', // Valider le programme
 
         ]);
 
-        Classe::create($request->only(['name', 'specialite', 'programme_id']));
+        Classe::create($request->only(['name', 'specialite','localisation', 'programme_id']));
 
         return redirect('admin/dashboard/classes/createclasse')->with('status','classe Created');
 
@@ -50,12 +52,14 @@ class ClasseController extends Controller
             'name' => 'required|max:255|string',
             
             'specialite' => 'required|max:255|string',
+            'localisation' => 'required|max:255|string',
+
             'programme_id' => 'required|exists:programme,id', // Valider le programme
 
         ]);
 
         $classe = Classe::findOrFail($id);
-        $classe->update($request->only(['name', 'specialite']));
+        $classe->update($request->only(['name', 'specialite','localisation']));
 
         return redirect()->back()->with('status','classe Update');
     }
