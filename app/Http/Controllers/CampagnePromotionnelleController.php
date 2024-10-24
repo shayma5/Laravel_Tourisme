@@ -9,7 +9,7 @@ class CampagnePromotionnelleController extends Controller
 {
     public function index()
     {
-        $campagnes = CampagnePromotionnelle::all();
+        $campagnes = CampagnePromotionnelle::paginate(5);
         return view('backoffice.campagnePromotionnelle.index', compact('campagnes'));
 
     }
@@ -23,10 +23,17 @@ class CampagnePromotionnelleController extends Controller
 {
     $validatedData = $request->validate([
         'nom' => 'required|max:255',
-        'budget' => 'required|numeric',
+        'budget' => 'required|numeric|min:0',
         'date_debut' => 'required|date',
         'date_fin' => 'required|date|after:date_debut',
+    ], [
+        'date_debut.required' => 'La date de début est obligatoire.',
+        'date_debut.date' => 'La date de début doit être une date valide.',
+        'date_fin.required' => 'La date de fin est obligatoire.',
+        'date_fin.date' => 'La date de fin doit être une date valide.',
+        'date_fin.after' => 'La date de fin doit être postérieure à la date de début.',
     ]);
+    
 
     CampagnePromotionnelle::create($validatedData);
 
@@ -48,10 +55,17 @@ class CampagnePromotionnelleController extends Controller
     {
         $validatedData = $request->validate([
             'nom' => 'required|max:255',
-            'budget' => 'required|numeric',
+            'budget' => 'required|numeric|min:0',
             'date_debut' => 'required|date',
             'date_fin' => 'required|date|after:date_debut',
+        ], [
+            'date_debut.required' => 'La date de début est obligatoire.',
+            'date_debut.date' => 'La date de début doit être une date valide.',
+            'date_fin.required' => 'La date de fin est obligatoire.',
+            'date_fin.date' => 'La date de fin doit être une date valide.',
+            'date_fin.after' => 'La date de fin doit être postérieure à la date de début.',
         ]);
+        
 
         $campagne->update($validatedData);
 

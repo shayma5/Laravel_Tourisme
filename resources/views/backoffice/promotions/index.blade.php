@@ -37,5 +37,14 @@
             @endforeach
         </tbody>
     </table>
+
+    <div class="d-flex justify-content-center mt-4">
+    <nav style="display: flex; flex-direction: row; transform: scale(0.8); border: 1px solid #ddd; padding: 5px; border-radius: 5px;">
+        <ul style="display: flex; flex-direction: row; list-style: none; margin: 0; padding: 0; font-size: 14px;">
+            {{ $promotions->links() }}
+        </ul>
+    </nav>
+</div>
+
 </div>
 @endsection

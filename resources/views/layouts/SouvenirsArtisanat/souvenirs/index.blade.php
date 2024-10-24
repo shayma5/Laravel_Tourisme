@@ -98,7 +98,8 @@
                 <div class="job-thumb job-thumb-box">
                     <div class="job-image-box-wrap">
                         <a href="{{ route('layouts.SouvenirsArtisanat.souvenirs.show', $souvenir->id) }}">
-                            <img src="{{ asset('storage/' . $souvenir->image) }}" class="job-image img-fluid" alt="{{ $souvenir->nom }}">
+                        <img src="{{ asset('storage/' . $souvenir->image) }}" alt="{{ $souvenir->nom }}">
+
                         </a>
                         <div class="job-image-box-wrap-info d-flex align-items-center">
                             <p class="mb-0">

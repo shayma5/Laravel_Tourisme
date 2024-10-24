@@ -12,7 +12,7 @@ class SouvenirController extends Controller
 {
     public function index()
     {
-        $souvenirs = Souvenir::all();
+        $souvenirs = Souvenir::paginate(5);
         return view('backoffice.souvenirs.index', compact('souvenirs'));
     }
 
@@ -62,8 +62,8 @@ class SouvenirController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('souvenirs', 'public');
-            $validatedData['image'] = $imagePath;
+            $imagePath = $request->file('image')->store('public/souvenirs');
+            $validatedData['image'] = str_replace('public/', '', $imagePath);
         }
 
         Souvenir::create($validatedData);

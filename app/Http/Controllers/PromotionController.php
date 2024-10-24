@@ -12,7 +12,7 @@ class PromotionController extends Controller
 {
     public function index()
     {
-        $promotions = Promotion::all();
+        $promotions = Promotion::paginate(5);
         return view('backoffice.promotions.index', compact('promotions'));
     }
 

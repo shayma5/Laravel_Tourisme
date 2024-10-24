@@ -13,7 +13,7 @@ class MagasinController extends Controller
 {
     public function index()
     {
-        $magasins = Magasin::all();
+        $magasins = Magasin::paginate(5);
         return view('backoffice.magasins.index', compact('magasins'));
     }
 
@@ -42,8 +42,8 @@ class MagasinController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('magasins', 'public');
-            $validatedData['image'] = $imagePath;
+            $imagePath = $request->file('image')->store('public/magasins');
+            $validatedData['image'] = str_replace('public/', '', $imagePath);
         }
 
         $magasin = Magasin::create($validatedData);

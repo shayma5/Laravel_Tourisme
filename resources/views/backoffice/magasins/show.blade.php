@@ -10,7 +10,7 @@
             <p class="card-text"><strong>Adresse:</strong> {{ $magasin->adresse }}</p>
             <p class="card-text"><strong>Description:</strong> {{ $magasin->description }}</p>
             @if($magasin->image)
-                <img src="{{ asset('storage/' . $magasin->image) }}" alt="{{ $magasin->nomMagasin }}" class="img-fluid">
+                <img src="{{ asset('storage/' . $magasin->image) }}" alt="{{ $magasin->nomMagasin }}" class="img-thumbnail mt-2" style="max-width: 200px;">
             @endif
         </div>
     </div>

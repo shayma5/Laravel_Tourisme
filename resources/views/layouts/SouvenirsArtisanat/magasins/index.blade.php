@@ -40,11 +40,17 @@
                     <div class="job-image-box-wrap">
                         <a href="{{ route('layouts.SouvenirsArtisanat.magasins.show', $magasin->id) }}">
                             @if($magasin->image)
-                                <img src="{{ asset('storage/' . $magasin->image) }}" class="store-image img-fluid" alt="{{ $magasin->nomMagasin }}">
+                                
+                            <img src="{{ asset('storage/' . $magasin->image) }}" class="store-image img-fluid" alt="{{ $magasin->nomMagasin }}">
+
                             @else
-                                <img src="{{ asset('images/placeholder-store.jpg') }}" class="store-image img-fluid" alt="Image placeholder">
+                                <p>pas d'image disponibles<p>
                             @endif
+
                         </a>
+
+                        
+
 
                         <div class="job-image-box-wrap-info d-flex align-items-center">
                             <p class="mb-0">

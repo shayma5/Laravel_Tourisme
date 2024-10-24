@@ -13,31 +13,64 @@
         </div>
     @else
         <!-- Si des campagnes existent, afficher le formulaire pour créer une promotion -->
-        <form action="{{ route('promotions.store') }}" method="POST">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form action="{{ route('promotions.store') }}" method="POST" novalidate>
             @csrf
+
             <div class="form-group">
                 <label for="nom">Nom</label>
-                <input type="text" class="form-control" id="nom" name="nom" required>
+                <input type="text" name="nom" class="form-control" value="{{ old('nom') }}" required>
+                @error('nom')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
+
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea class="form-control" id="description" name="description" required></textarea>
+                <textarea name="description" class="form-control">{{ old('description') }}</textarea>
+                @error('description')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
+
             <div class="form-group">
                 <label for="date_debut">Date de début</label>
-                <input type="date" class="form-control" id="date_debut" name="date_debut" required>
+                <input type="date" name="date_debut" class="form-control" value="{{ old('date_debut') }}" required>
+                @error('date_debut')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
+
             <div class="form-group">
                 <label for="date_fin">Date de fin</label>
-                <input type="date" class="form-control" id="date_fin" name="date_fin" required>
+                <input type="date" name="date_fin" class="form-control" value="{{ old('date_fin') }}" required>
+                @error('date_fin')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
+
             <div class="form-group">
                 <label for="campagne_promotionnelle_id">Campagne Promotionnelle</label>
-                <select class="form-control" id="campagne_promotionnelle_id" name="campagne_promotionnelle_id" required>
+                <select name="campagne_promotionnelle_id" class="form-control" required>
+                    <option value="">Sélectionnez une campagne</option>
                     @foreach($campagnes as $campagne)
-                        <option value="{{ $campagne->id }}">{{ $campagne->nom }} ({{ $campagne->date_debut }} - {{ $campagne->date_fin }})</option>
+                        <option value="{{ $campagne->id }}" {{ old('campagne_promotionnelle_id') == $campagne->id ? 'selected' : '' }}>
+                            {{ $campagne->nom }} ({{ $campagne->date_debut }} - {{ $campagne->date_fin }})
+                        </option>
                     @endforeach
                 </select>
+                @error('campagne_promotionnelle_id')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
             <button type="submit" class="btn btn-primary">Créer</button>
