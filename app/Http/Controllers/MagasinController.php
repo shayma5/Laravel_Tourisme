@@ -109,13 +109,26 @@ class MagasinController extends Controller
     public function edit(Magasin $magasin)
     {
         $promotions = Promotion::where('date_fin', '>=', Carbon::now()->toDateString())->get();
-        $availableSouvenirs = Souvenir::where('magasin_id', null)
+        
+        // Get only available souvenirs (unassigned or belonging to current magasin)
+        $souvenirs = Souvenir::where('magasin_id', null)
             ->orWhere('magasin_id', $magasin->id)
+            ->orderBy('magasin_id', 'asc')
             ->get();
         
-        return view('backoffice.magasins.edit', compact('magasin', 'promotions', 'availableSouvenirs'));
+        $ownedSouvenirs = $souvenirs->filter(function($souvenir) use ($magasin) {
+            return $magasin->souvenirs->contains($souvenir->id);
+        });
+        
+        $notOwnedSouvenirs = $souvenirs->filter(function($souvenir) use ($magasin) {
+            return !$magasin->souvenirs->contains($souvenir->id);
+        });
+        
+        return view('backoffice.magasins.edit', compact('magasin', 'promotions', 'souvenirs', 'ownedSouvenirs', 'notOwnedSouvenirs'));
     }
-
+    
+    
+    
     
     public function update(Request $request, Magasin $magasin)
     {
@@ -134,6 +147,8 @@ class MagasinController extends Controller
 
         $magasin->update($validatedData);
 
+        
+
         return redirect()->route('magasins.index')->with('success', 'Magasin mis à jour avec succès.');
     }
 
@@ -151,40 +166,58 @@ class MagasinController extends Controller
 
 
 
-    public function editSouvenirs(Magasin $magasin)
-    {
-        // Récupérer tous les souvenirs disponibles (non affectés ou appartenant à ce magasin)
-        $availableSouvenirs = Souvenir::where('magasin_id', null)
-            ->orWhere('magasin_id', $magasin->id)
-            ->get();
+    // public function editSouvenirs(Magasin $magasin)
+    // {
+    //     // Get only souvenirs that are unassigned (magasin_id is null) or belong to this magasin
+    //     $availableSouvenirs = Souvenir::where(function($query) use ($magasin) {
+    //         $query->whereNull('magasin_id')
+    //               ->orWhere('magasin_id', $magasin->id);
+    //     })->get();
+    
+    //     return view('backoffice.magasins.souvenirs-edit', compact('magasin', 'availableSouvenirs'));
+    // }
+    
 
-        return view('backoffice.magasins.souvenirs-edit', compact('magasin', 'availableSouvenirs'));
-    }
 
     public function updateSouvenirs(Request $request, Magasin $magasin)
     {
-        // Get selected souvenirs or empty array if none selected
         $selectedSouvenirs = $request->input('souvenirs', []);
-        
-        // If we have selected souvenirs, update them
+
+        // First, unassign all current souvenirs from this magasin
+        Souvenir::where('magasin_id', $magasin->id)
+            ->update(['magasin_id' => null]);
+
+        // Then, assign selected souvenirs to this magasin
         if (!empty($selectedSouvenirs)) {
             Souvenir::whereIn('id', $selectedSouvenirs)
                 ->update(['magasin_id' => $magasin->id]);
         }
-        
-        // Update non-selected souvenirs that belong to this magasin
+
+        return view('backoffice.otherViews.loading', [
+            'redirectUrl' => route('magasins.edit', $magasin->id)
+        ]);
+    }
+
+
+    public function unassignMultiple(Request $request, Magasin $magasin)
+    {
+        $selectedSouvenirs = $request->input('souvenirs_to_unassign', []);
+    
         if (!empty($selectedSouvenirs)) {
-            Souvenir::where('magasin_id', $magasin->id)
-                ->whereNotIn('id', $selectedSouvenirs)
-                ->update(['magasin_id' => null]);
-        } else {
-            // If no souvenirs selected, remove all from this magasin
-            Souvenir::where('magasin_id', $magasin->id)
+            Souvenir::whereIn('id', $selectedSouvenirs)
+                ->where('magasin_id', $magasin->id)
                 ->update(['magasin_id' => null]);
         }
     
-        return response()->json(['success' => true]);
+        return view('backoffice.otherViews.loading', [
+            'redirectUrl' => route('magasins.edit', $magasin->id)
+        ]);
     }
+    
+
+    
+
+
     
     
     

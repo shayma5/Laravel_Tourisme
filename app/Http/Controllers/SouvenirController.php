@@ -5,16 +5,53 @@ namespace App\Http\Controllers;
 use App\Models\Souvenir;
 use Illuminate\Http\Request;
 use App\Models\Magasin;
+use App\Models\Promotion;
 use App\Services\StripeService;
 
 
 class SouvenirController extends Controller
 {
-    public function index()
-    {
-        $souvenirs = Souvenir::paginate(5);
-        return view('backoffice.souvenirs.index', compact('souvenirs'));
+    public function index(Request $request)
+{
+    $query = Souvenir::query();
+
+    if ($request->has('magasin_filter')) {
+        switch ($request->magasin_filter) {
+            case 'assigned':
+                // Group by magasin and paginate the magasins
+                $magasins = Magasin::whereHas('souvenirs')
+                    ->with('souvenirs')
+                    ->paginate(5);
+                return view('backoffice.souvenirs.index', compact('magasins'));
+                
+            case 'unassigned':
+                $query->whereNull('magasin_id');
+                break;
+        }
     }
+
+    // For other cases, paginate souvenirs
+    if ($request->has('stock_filter')) {
+        switch ($request->stock_filter) {
+            case 'low':
+                $query->where('nbr_restant', '<=', 20);
+                break;
+            case 'high':
+                $query->where('nbr_restant', '>', 20);
+                break;
+        }
+    }
+
+    $souvenirs = $query->paginate(5);
+    return view('backoffice.souvenirs.index', compact('souvenirs'));
+}
+
+    
+
+
+
+
+
 
     public function publicIndex(Request $request)
     {
@@ -46,10 +83,13 @@ class SouvenirController extends Controller
     public function create()
 {
     $magasins = Magasin::all();
-    return view('backoffice.souvenirs.create', compact('magasins'));
+    $promotions = Promotion::all();
+    return view('backoffice.souvenirs.create', compact('magasins', 'promotions'));
 }
 
-    public function store(Request $request)
+    
+
+public function store(Request $request)
     {
         $validatedData = $request->validate([
             'nom' => 'required|max:255',
@@ -58,7 +98,7 @@ class SouvenirController extends Controller
             'promotion' => 'nullable|numeric',
             'nbr_restant' => 'required|integer',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'magasin_id' => 'required|exists:magasins,id',
+            'magasin_id' => 'nullable|exists:magasins,id',
         ]);
 
         if ($request->hasFile('image')) {
@@ -71,6 +111,12 @@ class SouvenirController extends Controller
         return redirect()->route('souvenirs.index')->with('success', 'Souvenir créé avec succès.');
     }
 
+   
+   
+   
+   
+   
+   
     public function show(Souvenir $souvenir)
     {
         return view('backoffice.souvenirs.show', compact('souvenir'));
@@ -127,25 +173,5 @@ class SouvenirController extends Controller
 }
 
 
-
-//     public function acheterSouvenir($id, Request $request, StripeService $stripeService)
-// {
-
-
-//     // Récupérer le souvenir par ID
-//     $souvenir = Souvenir::findOrFail($id);
-
-//     // Créer un Payment Intent avec Stripe
-//     $paymentIntent = $stripeService->createPaymentIntent($souvenir->prix); // Le prix en centimes
-    
-//     if (isset($paymentIntent['id'])) {
-//         // Rediriger vers la page de confirmation ou afficher les détails du paiement
-//         dd("je suis là");
-//         return view('layouts.SouvenirsArtisanat.souvenirs.payment.initiate', ['paymentIntent' => $paymentIntent, 'souvenir' => $souvenir]);
-//     } else {
-//         dd("je suis làaaaa");
-//         return back()->withErrors(['message' => 'Le paiement a échoué, veuillez réessayer.']);
-//     }
-// }
 
 }

@@ -6,8 +6,8 @@
         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
-        <h3 class="mt-3">Désaffectation en cours...</h3>
-        <p>Vous serez redirigé dans quelques secondes</p>
+        <h3 class="mt-3">modifications en cours...</h3>
+        <p>Veuillez patienter quelques secondes</p>
     </div>
 </div>
 

@@ -10,7 +10,14 @@
             <p class="card-text"><strong>Description:</strong> {{ $souvenir->description }}</p>
             <p class="card-text"><strong>Promotion:</strong> {{ $souvenir->promotion ?? 'Aucune' }}</p>
             <p class="card-text"><strong>Nombre restant:</strong> {{ $souvenir->nbr_restant }}</p>
-            <p class="card-text"><strong>Magasin:</strong> {{ $souvenir->magasin->nomMagasin }}</p>
+            <p class="card-text">
+                <strong>Magasin:</strong> 
+                @if($souvenir->magasin)
+                    {{ $souvenir->magasin->nomMagasin }}
+                @else
+                    ➖
+                @endif
+            </p>
             @if($souvenir->image)
                 
             <img src="{{ asset('storage/'.$souvenir->image) }}" alt="{{ $souvenir->nom }}" class="img-thumbnail mt-2" style="max-width: 200px;">
@@ -19,5 +26,15 @@
     </div>
     <a href="{{ route('souvenirs.edit', $souvenir->id) }}" class="btn btn-warning mt-3">Modifier</a>
     <a href="{{ route('souvenirs.index') }}" class="btn btn-secondary mt-3">Retour à la liste</a>
+
+
 </div>
+@if(!$souvenir->magasin)
+        <div class="alert alert-info">
+        <small>
+            <i>➖ : N'appartient à aucun Magasin actuellement</i>
+            - <a href="{{ route('souvenirs.edit', $souvenir->id) }}" class="alert-link">Cliquez ici pour lui Affecter un MAGASIN</a>
+        </small>
+        </div>
+@endif
 @endsection

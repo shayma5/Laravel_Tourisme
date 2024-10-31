@@ -37,7 +37,7 @@
         </div>
         <div class="form-group">
             <label for="promotion">Promotion</label>
-            <input type="number" step="0.01" class="form-control" id="promotion" name="promotion" value="{{ old('promotion') }}">
+            <input type="number" step="0.1" class="form-control" id="promotion" name="promotion" value="0"">
             @error('promotion')
                 <small class="text-danger">{{ $message }}</small>
             @enderror
@@ -58,17 +58,14 @@
         </div>
         <div class="form-group">
             <label for="magasin_id">Magasin</label>
-            <select class="form-control" id="magasin_id" name="magasin_id" required>
-                <option value="">Sélectionnez un magasin</option>
+            <select class="form-control" id="magasin_id" name="magasin_id" >
+                <option value="">➖ (aucun Magasin)</option>
                 @foreach($magasins as $magasin)
-                    <option value="{{ $magasin->id }}" {{ old('magasin_id') == $magasin->id ? 'selected' : '' }}>
+                    <option value="{{ $magasin->id }}" >
                         {{ $magasin->nomMagasin }}
                     </option>
                 @endforeach
             </select>
-            @error('magasin_id')
-                <small class="text-danger">{{ $message }}</small>
-            @enderror
         </div>
         <button type="submit" class="btn btn-primary">Ajouter</button>
     </form>

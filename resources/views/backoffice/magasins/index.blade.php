@@ -22,7 +22,7 @@
       </div>
    </div>
 
-<hr/>
+    <hr/>
 
 
    <form action="{{ route('magasins.index') }}" method="GET" class="mb-4">
@@ -75,7 +75,7 @@
    
    
    <!-- Vue Liste -->
-   <div id="list-view-content">
+   <div id="list-view-content" class="mx-3">
         @foreach($magasins as $magasin)
             <div class="card mb-4">
                 <div class="card-header">
@@ -93,13 +93,29 @@
                         </h2>
                     </div>
                     <div>
-                        <a href="{{ route('magasins.show', $magasin->id) }}" class="btn btn-info btn-sm">Voir</a>
-                        <a href="{{ route('magasins.edit', $magasin->id) }}" class="btn btn-warning btn-sm">Modifier</a>
-                        <form action="{{ route('magasins.destroy', $magasin->id) }}" method="POST" style="display: inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce magasin ?')">Supprimer</button>
-                        </form>
+                        <div class="selectgroup w-100">
+                            <label class="selectgroup-item">
+                                <a href="{{ route('magasins.show', $magasin->id) }}" class="selectgroup-button text-primary">
+                                    <i class="fas fa-eye fa-lg"></i>
+                                </a>
+                            </label>
+                            
+                            <label class="selectgroup-item">
+                                <a href="{{ route('magasins.edit', $magasin->id) }}" class="selectgroup-button text-warning">
+                                    <i class="fas fa-edit fa-lg"></i>
+                                </a>
+                            </label>
+                            
+                            <label class="selectgroup-item">
+                                <form action="{{ route('magasins.destroy', $magasin->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="selectgroup-button text-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce magasin ?')">
+                                        <i class="fas fa-trash fa-lg"></i>
+                                    </button>
+                                </form>
+                            </label>
+                        </div>
                     </div>
                     </div>
                 </div>
@@ -176,7 +192,7 @@
    </div>
 
     <!-- Vue Grille -->
-    <div id="grid-view-content" class="row" style="display: none;">
+    <div id="grid-view-content" class="row ms-3" style="display: none;">
         <div class="row">
             @foreach($magasins as $magasin)
                 <div class="col-md-4 mb-4">
@@ -213,13 +229,29 @@
                             </p>
                             <div class="d-flex justify-content-between align-items-center mt-3">
                                 <div class="btn-group" style="gap: 5px;">
-                                    <a href="{{ route('magasins.show', $magasin->id) }}" class="btn btn-info btn-sm">Voir</a>
-                                    <a href="{{ route('magasins.edit', $magasin->id) }}" class="btn btn-warning btn-sm">Modifier</a>
-                                    <form action="{{ route('magasins.destroy', $magasin->id) }}" method="POST" style="display: inline-block;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce magasin ?')">Supprimer</button>
-                                    </form>
+                                    <div class="selectgroup w-100">
+                                        <label class="selectgroup-item">
+                                            <a href="{{ route('magasins.show', $magasin->id) }}" class="selectgroup-button text-primary">
+                                                <i class="fas fa-eye fa-lg"></i>
+                                            </a>
+                                        </label>
+                                        
+                                        <label class="selectgroup-item">
+                                            <a href="{{ route('magasins.edit', $magasin->id) }}" class="selectgroup-button text-warning">
+                                                <i class="fas fa-edit fa-lg"></i>
+                                            </a>
+                                        </label>
+                                        
+                                        <label class="selectgroup-item">
+                                            <form action="{{ route('magasins.destroy', $magasin->id) }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="selectgroup-button text-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce magasin ?')">
+                                                    <i class="fas fa-trash fa-lg"></i>
+                                                </button>
+                                            </form>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>

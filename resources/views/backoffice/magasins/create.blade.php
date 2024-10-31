@@ -61,40 +61,34 @@
             <h4>Promotions</h4>
             <div class="card-body">
                 @if($promotions->isNotEmpty())
-                    <div class="table-responsive">
-                        <table id="promotions-table" class="display table table-striped table-hover dataTable">
-                            <thead>
-                                <tr>
-                                    <th>Sélectionner</th>
-                                    <th>Nom de la promotion</th>
-                                    <th>Description</th>
-                                    <th>Date de début</th>
-                                    <th>Date de fin</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($promotions as $promotion)
-                                    <tr>
-                                        <td>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="promotions[]" value="{{ $promotion->id }}" id="promotion{{ $promotion->id }}">
-                                            </div>
-                                        </td>
-                                        <td>{{ $promotion->nom }}</td>
-                                        <td>{{ Str::limit($promotion->description, 50) }}</td>
-                                        <td>{{ $promotion->date_debut }}</td>
-                                        <td>{{ $promotion->date_fin }}</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                    <select class="form-control mb-3" name="promotions[]" multiple>
+                        <option value="">Aucune promotion</option>
+                        @foreach($promotions as $promotion)
+                            @php
+                                $daysRemaining = \Carbon\Carbon::parse($promotion->date_fin)->diffInDays(now());
+                            @endphp
+                            <option value="{{ $promotion->id }}">
+                                {{ $promotion->nom }} 
+                                ({{ $promotion->date_debut }} - {{ $promotion->date_fin }})
+                                @if($daysRemaining <= 10)
+                                    <span class="text-danger">({{ $daysRemaining }} jours restants)</span>
+                                @else
+                                    ({{ $daysRemaining }} jours restants)
+                                @endif
+                            </option>
+                        @endforeach
+                    </select>
+                    <a href="{{ route('promotions.create') }}" class="btn btn-primary">Créer une nouvelle promotion</a>
                 @else
-                    <span>Aucune promotion disponible actuellement.</span>
+                    <div class="alert alert-info">
+                        <p>Aucune promotion n'est disponible actuellement. Vous pourrez en ajouter ultérieurement.</p>
+                        <p>Pour créer une nouvelle promotion maintenant, cliquez sur le bouton ci-dessous.</p>
+                    </div>
                     <a href="{{ route('promotions.create') }}" class="btn btn-primary">Créer une nouvelle promotion</a>
                 @endif
             </div>
         </div>
+
 
         <hr>
         <br>

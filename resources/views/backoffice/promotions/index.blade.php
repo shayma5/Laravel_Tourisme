@@ -6,7 +6,7 @@
     <a href="{{ route('promotions.create') }}" class="btn btn-primary mb-3">Créer une nouvelle promotion</a>
     
     <table class="table">
-        <thead>
+        <thead class="text-center">
             <tr>
                 <th>Nom</th>
                 <th>Description</th>
@@ -16,7 +16,7 @@
                 <th>Actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="text-center">
             @foreach($promotions as $promotion)
             <tr>
                 <td>{{ $promotion->nom }}</td>
@@ -25,14 +25,31 @@
                 <td>{{ $promotion->date_fin }}</td>
                 <td>{{ $promotion->campagnePromotionnelle->nom }}</td>
                 <td>
-                    <a href="{{ route('promotions.show', $promotion->id) }}" class="btn btn-info btn-sm">Voir</a>
-                    <a href="{{ route('promotions.edit', $promotion->id) }}" class="btn btn-warning btn-sm">Modifier</a>
-                    <form action="{{ route('promotions.destroy', $promotion->id) }}" method="POST" style="display: inline-block;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette promotion ?')">Supprimer</button>
-                    </form>
+                    <div class="selectgroup w-100">
+                        <label class="selectgroup-item">
+                            <a href="{{ route('promotions.show', $promotion->id) }}" class="selectgroup-button text-primary">
+                                <i class="fas fa-eye fa-lg"></i>
+                            </a>
+                        </label>
+                        
+                        <label class="selectgroup-item">
+                            <a href="{{ route('promotions.edit', $promotion->id) }}" class="selectgroup-button text-warning">
+                                <i class="fas fa-edit fa-lg"></i>
+                            </a>
+                        </label>
+                        
+                        <label class="selectgroup-item">
+                            <form action="{{ route('promotions.destroy', $promotion->id) }}" method="POST" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="selectgroup-button text-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette promotion ?')">
+                                    <i class="fas fa-trash fa-lg"></i>
+                                </button>
+                            </form>
+                        </label>
+                    </div>
                 </td>
+
             </tr>
             @endforeach
         </tbody>
