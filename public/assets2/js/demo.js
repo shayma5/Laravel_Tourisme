@@ -193,7 +193,7 @@ Circles.create({
 $.notify({
 	icon: 'icon-bell',
 	title: 'Kaiadmin',
-	message: 'Premium Bootstrap 5 Admin Dashboard',
+	message: 'Premium Bootstrap 5 Admin Dashboard !!!',
 },{
 	type: 'secondary',
 	placement: {

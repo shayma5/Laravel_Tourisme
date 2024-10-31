@@ -21,7 +21,7 @@ return new class extends Migration
         $table->decimal('promotion', 5, 2)->nullable();
         $table->integer('nbr_restant');
         $table->string('image')->nullable();
-        $table->foreignId('magasin_id')->constrained()->onDelete('cascade');
+        $table->foreignId('magasin_id')->nullable()->constrained()->onDelete('cascade');
         $table->timestamps();
     });
 }

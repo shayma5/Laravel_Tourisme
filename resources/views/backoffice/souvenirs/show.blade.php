@@ -12,7 +12,8 @@
             <p class="card-text"><strong>Nombre restant:</strong> {{ $souvenir->nbr_restant }}</p>
             <p class="card-text"><strong>Magasin:</strong> {{ $souvenir->magasin->nomMagasin }}</p>
             @if($souvenir->image)
-                <img src="{{ asset('storage/'.$souvenir->image) }}" alt="{{ $souvenir->nom }}" class="img-thumbnail mt-2" style="max-width: 200px;">
+                
+            <img src="{{ asset('storage/'.$souvenir->image) }}" alt="{{ $souvenir->nom }}" class="img-thumbnail mt-2" style="max-width: 200px;">
             @endif
         </div>
     </div>
