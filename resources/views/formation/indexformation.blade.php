@@ -41,6 +41,8 @@
                                 <th>Formateur</th>
                                 <th>Nombre de Réservations</th>
                                 <th>Data Educative</th> <!-- Nouvelle colonne -->
+                                <th>unesco</th>
+
                                 <th style="width: 10%">Action</th>
                             </tr>
                         </thead>
@@ -66,12 +68,16 @@
     @else
         <span>Aucune donnée disponible</span>
     @endif
-
+    </div>
+</td>
+<td>
     <!-- QR Code -->
     <div>
-        <h5>Scannez le QR Code pour accéder à l'API UNESCO:</h5>
+    <p>Scannez le QR Code l'API UNESCO:</p>
+    <div >
         {!! $qrCode !!}
     </div>
+
 </td>
 
 
