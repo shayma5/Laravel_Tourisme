@@ -6,10 +6,28 @@
     
     <!-- Search input -->
     <input type="text" id="search" class="form-control mt-3 mb-3" placeholder="Rechercher un avis...">
+
+     <!-- Date filter -->
+     <div class="form-row mb-3">
+        <div class="col">
+            <input type="date" id="startDate" class="form-control" placeholder="Date de début">
+        </div>
+        <div class="col">
+            <input type="date" id="endDate" class="form-control" placeholder="Date de fin">
+        </div>
+        <div class="col">
+            <button id="filterButton" class="btn btn-primary">Filtrer</button>
+        </div>
+    </div>
     
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
+
+  
+   
+
+
 
     <table class="table table-bordered table-striped"> <!-- Améliorer le style du tableau -->
         <thead>
@@ -50,10 +68,20 @@
 </div>
 
 <script>
-    document.getElementById('search').addEventListener('keyup', function() {
-        var search = this.value;
+   document.getElementById('search').addEventListener('keyup', function() {
+        fetchResults();
+    });
 
-        fetch("{{ route('avis.index') }}?search=" + search, {
+    document.getElementById('filterButton').addEventListener('click', function() {
+        fetchResults();
+    });
+
+    function fetchResults() {
+        const search = document.getElementById('search').value;
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
+
+        fetch("{{ route('avis.index') }}?search=" + search + "&start_date=" + startDate + "&end_date=" + endDate, {
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             }
@@ -62,6 +90,6 @@
         .then(html => {
             document.getElementById('avisTableBody').innerHTML = html;
         });
-    });
+    }
 </script>
 @endsection

@@ -32,6 +32,7 @@ Route::resource('plats', PlatController::class);
 Route::resource('avis', AvisController::class);
 
 
+
 // Routes frontend (utilisateurs)
 Route::get('/restaurants/frontend', [RestaurantController::class, 'showFrontend'])->name('restaurants.showFrontend');
 Route::get('/restaurants/frontend/{id}', [RestaurantController::class, 'showFrontend'])->name('restaurants.show.frontend');

@@ -177,17 +177,17 @@ public function app(Request $request)
                     $latitude = $data['items'][0]['position']['lat'];
                     $longitude = $data['items'][0]['position']['lng'];
                 } else {
-                    // Aucune position trouvée pour l'adresse
                     \Log::warning('Aucune position trouvée pour l\'adresse : ' . $restaurant->adresse);
                 }
             } catch (RequestException $e) {
-                // Gérer l'erreur (logger, afficher un message, etc.)
                 \Log::error('Erreur lors de la requête HERE API: ' . $e->getMessage());
             }
         }
     
         return view('app.restaurants.showrestaurant', compact('restaurant', 'latitude', 'longitude'));
     }
+    
+
 
     
 
@@ -218,7 +218,7 @@ public function app(Request $request)
             // Supprimer l'ancienne image si elle existe
         
             
-            // Sauvegarder la nouvelle image
+        // Sauvegarder la nouvelle image
             $image = $request->file('image')->store('images/restaurants', 'public');
             $restaurant->image = $image; // Mettre à jour le chemin de l'image
         }
