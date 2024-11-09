@@ -24,52 +24,110 @@
 
     <hr/>
 
+    <div class="row mb-4">
+        <div class="col-md-5 offset-md-1">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h4 class="card-title">Filtres</h4>
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('magasins.index') }}" method="GET" class="mb-4">
+                        <!-- Filtre Promotions -->
+                        <div class="d-flex flex-column align-items-center">
+                            <h5><i class="fas fa-times-circle text-danger"></i> Filtre Promotions</h5>
+                            <div class="btn-group" role="group">
+                                <input type="radio" name="promotion_filter" value="all" class="btn-check" id="promo_all" {{ request('promotion_filter', 'all') == 'all' ? 'checked' : '' }}>
+                                <label class="btn btn-outline-primary" for="promo_all">Tous les magasins</label>
+                                <input type="radio" name="promotion_filter" value="with_promo" class="btn-check" id="promo_with" {{ request('promotion_filter') == 'with_promo' ? 'checked' : '' }}>
+                                <label class="btn btn-outline-success" for="promo_with">Avec promotion</label>
 
-   <form action="{{ route('magasins.index') }}" method="GET" class="mb-4">
-      <!-- Filtre Promotions -->
-      <div class="form-group mb-3">
-         <h5><i class="fas fa-times-circle text-danger"></i> Filtre Promotions</h5>
-         <div class="btn-group" role="group">
-            <input type="radio" name="promotion_filter" value="all" class="btn-check" id="promo_all" {{ request('promotion_filter', 'all') == 'all' ? 'checked' : '' }}>
-            <label class="btn btn-outline-primary" for="promo_all">Tous les magasins</label>
-            <input type="radio" name="promotion_filter" value="with_promo" class="btn-check" id="promo_with" {{ request('promotion_filter') == 'with_promo' ? 'checked' : '' }}>
-            <label class="btn btn-outline-success" for="promo_with">Avec promotion</label>
+                                <input type="radio" name="promotion_filter" value="no_promo" class="btn-check" id="promo_none" {{ request('promotion_filter') == 'no_promo' ? 'checked' : '' }}>
+                                <label class="btn btn-outline-danger" for="promo_none">Sans promotion</label>
+                            </div>
+                            <br>
+                        </div>
+                        <!-- Filtre Souvenirs -->
+                        <div class="d-flex flex-column align-items-center">
+                            <h5><i class="fas fa-gift text-success"></i> Filtre Souvenirs</h5>
+                            <div class="btn-group" role="group">
+                                <input type="radio" name="souvenir_filter" value="all" class="btn-check" id="souv_all" {{ request('souvenir_filter', 'all') == 'all' ? 'checked' : '' }}>
+                                <label class="btn btn-outline-primary" for="souv_all">Tous</label>
+                                <input type="radio" name="souvenir_filter" value="0" class="btn-check" id="souv_0" {{ request('souvenir_filter') == '0' ? 'checked' : '' }}>
+                                <label class="btn btn-outline-danger" for="souv_0">0 <i class="fas fa-gift"></i></label>
+                                <input type="radio" name="souvenir_filter" value="1-5" class="btn-check" id="souv_1_5" {{ request('souvenir_filter') == '1-5' ? 'checked' : '' }}>
+                                <label class="btn btn-outline-success" for="souv_1_5">1-5 <i class="fas fa-gift"></i></label>
+                                <input type="radio" name="souvenir_filter" value="6-10" class="btn-check" id="souv_6_10" {{ request('souvenir_filter') == '6-10' ? 'checked' : '' }}>
+                                <label class="btn btn-outline-success" for="souv_6_10">6-10 <i class="fas fa-gift"></i></label>
+                                <input type="radio" name="souvenir_filter" value="10+" class="btn-check" id="souv_10plus" {{ request('souvenir_filter') == '10+' ? 'checked' : '' }}>
+                                <label class="btn btn-outline-success" for="souv_10plus">10+ <i class="fas fa-gift"></i></label>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <h5><i class="fas fa-list"></i> Nombre de magasins par page</h5>
+                            <div class="btn-group" role="group">
+                                <input type="radio" name="per_page" value="5" class="btn-check" id="per_page_5" {{ request('per_page', '10') == '5' ? 'checked' : '' }}>
+                                <label class="btn btn-outline-primary" for="per_page_5">5</label>
+                                <input type="radio" name="per_page" value="10" class="btn-check" id="per_page_10" {{ request('per_page', '10') == '10' ? 'checked' : '' }}>
+                                <label class="btn btn-outline-primary" for="per_page_10">10</label>
+                                <input type="radio" name="per_page" value="15" class="btn-check" id="per_page_15" {{ request('per_page', '10') == '15' ? 'checked' : '' }}>
+                                <label class="btn btn-outline-primary" for="per_page_15">15</label>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="d-flex flex-column align-items-center">
+                            <button type="submit" class="btn btn-warning ">
+                                <i class="fas fa-filter"></i> Appliquer les filtres
+                            </button>
+                        </div>
 
-            <input type="radio" name="promotion_filter" value="no_promo" class="btn-check" id="promo_none" {{ request('promotion_filter') == 'no_promo' ? 'checked' : '' }}>
-            <label class="btn btn-outline-danger" for="promo_none">Sans promotion</label>
-         </div>
-      </div>
-      <!-- Filtre Souvenirs -->
-      <div class="form-group mb-3">
-         <h5><i class="fas fa-gift text-success"></i> Filtre Souvenirs</h5>
-         <div class="btn-group" role="group">
-            <input type="radio" name="souvenir_filter" value="all" class="btn-check" id="souv_all" {{ request('souvenir_filter', 'all') == 'all' ? 'checked' : '' }}>
-            <label class="btn btn-outline-primary" for="souv_all">Tous</label>
-            <input type="radio" name="souvenir_filter" value="0" class="btn-check" id="souv_0" {{ request('souvenir_filter') == '0' ? 'checked' : '' }}>
-            <label class="btn btn-outline-danger" for="souv_0">0 <i class="fas fa-gift"></i></label>
-            <input type="radio" name="souvenir_filter" value="1-5" class="btn-check" id="souv_1_5" {{ request('souvenir_filter') == '1-5' ? 'checked' : '' }}>
-            <label class="btn btn-outline-success" for="souv_1_5">1-5 <i class="fas fa-gift"></i></label>
-            <input type="radio" name="souvenir_filter" value="6-10" class="btn-check" id="souv_6_10" {{ request('souvenir_filter') == '6-10' ? 'checked' : '' }}>
-            <label class="btn btn-outline-success" for="souv_6_10">6-10 <i class="fas fa-gift"></i></label>
-            <input type="radio" name="souvenir_filter" value="10+" class="btn-check" id="souv_10plus" {{ request('souvenir_filter') == '10+' ? 'checked' : '' }}>
-            <label class="btn btn-outline-success" for="souv_10plus">10+ <i class="fas fa-gift"></i></label>
-         </div>
-      </div>
-      <div class="form-group mb-3">
-         <h5><i class="fas fa-list"></i> Nombre de magasins par page</h5>
-         <div class="btn-group" role="group">
-            <input type="radio" name="per_page" value="5" class="btn-check" id="per_page_5" {{ request('per_page', '10') == '5' ? 'checked' : '' }}>
-            <label class="btn btn-outline-primary" for="per_page_5">5</label>
-            <input type="radio" name="per_page" value="10" class="btn-check" id="per_page_10" {{ request('per_page', '10') == '10' ? 'checked' : '' }}>
-            <label class="btn btn-outline-primary" for="per_page_10">10</label>
-            <input type="radio" name="per_page" value="15" class="btn-check" id="per_page_15" {{ request('per_page', '10') == '15' ? 'checked' : '' }}>
-            <label class="btn btn-outline-primary" for="per_page_15">15</label>
-         </div>
-      </div>
-      <button type="submit" class="btn btn-warning">
-      <i class="fas fa-filter"></i> Appliquer les filtres
-      </button>
-   </form>
+                        
+
+                    </form>
+
+                </div>
+                
+            </div>
+
+
+        </div>
+        <!-- New pie charts section -->
+        <div class="col-md-4 offset-md-1">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h4 class="card-title">Statistiques des Magasins</h4>
+                </div>
+                <div class="card-body">
+                <ul class="nav nav-pills nav-secondary justify-content-center" id="stats-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="promotions-tab" data-bs-toggle="pill" href="#promotions-chart" role="tab">
+                                <i class="fas fa-percentage"></i> Promotions
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="souvenirs-tab" data-bs-toggle="pill" href="#souvenirs-chart" role="tab">
+                                <i class="fas fa-gift"></i> Souvenirs
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content mt-3">
+                        <div class="tab-pane fade show active" id="promotions-chart" role="tabpanel">
+                            <div class="chart-container" style="height: 100px;">
+                                <canvas id="promosPieChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="souvenirs-chart" role="tabpanel">
+                            <div class="chart-container" style="height: 100px;">
+                                <canvas id="souvenirsPieChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+   
    <hr/>
    
    
@@ -271,6 +329,7 @@
       </nav>
    </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 <script>
@@ -304,6 +363,130 @@
         gridViewContent.style.display = 'block';
         });
     });
+
+</script>
+
+<!-- Add this script section just before your existing scripts -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const promosData = {
+        labels: ['Avec promotions', 'Sans promotion'],
+        datasets: [{
+            data: [
+                {{ \App\Models\Magasin::has('promotions')->count() }},
+                {{ \App\Models\Magasin::doesntHave('promotions')->count() }}
+            ],
+            backgroundColor: ['#28a745', '#dc3545'],
+            borderWidth: 0
+        }]
+    };
+
+    const souvenirsData = {
+        labels: ['Avec souvenirs', 'Sans souvenir'],
+        datasets: [{
+            data: [
+                {{ \App\Models\Magasin::has('souvenirs')->count() }},
+                {{ \App\Models\Magasin::doesntHave('souvenirs')->count() }}
+            ],
+            backgroundColor: ['#28a745', '#dc3545'],
+            borderWidth: 0
+        }]
+    };
+
+    const noPromotionsCount = {{ \App\Models\Magasin::doesntHave('promotions')->count() }};
+    const noSouvenirsCount = {{ \App\Models\Magasin::doesntHave('souvenirs')->count() }};
+
+    if (noPromotionsCount > 0) {
+        document.querySelector('#promotions-chart').innerHTML += `
+            <div class="mt-3">
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i> Attention : il existe des magasins sans promotion, 
+                    <a href="javascript:void(0)" class="alert-link" onclick="showMagasinsWithoutPromotions()">cliquer ici</a> 
+                    pour avoir plus de détails.
+                </div>
+            </div>
+        `;
+    }
+
+    if (noSouvenirsCount > 0) {
+        document.querySelector('#souvenirs-chart').innerHTML += `
+            <div class="mt-3">
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i> Attention : il existe des magasins sans souvenirs, 
+                    <a href="javascript:void(0)" class="alert-link" onclick="showMagasinsWithoutSouvenirs()">cliquer ici</a> 
+                    pour avoir plus de détails.
+                </div>
+            </div>
+        `;
+    }
+
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    };
+
+    new Chart(document.getElementById('promosPieChart'), {
+        type: 'pie',
+        data: promosData,
+        options: chartOptions
+    });
+
+    new Chart(document.getElementById('souvenirsPieChart'), {
+        type: 'pie',
+        data: souvenirsData,
+        options: chartOptions
+    });
+});
+
+function showMagasinsWithoutPromotions() {
+    const magasins = {!! \App\Models\Magasin::doesntHave('promotions')->get(['id', 'nomMagasin'])->toJson() !!};
+    showMagasinsModal('Sans promotions', magasins);
+}
+
+function showMagasinsWithoutSouvenirs() {
+    const magasins = {!! \App\Models\Magasin::doesntHave('souvenirs')->get(['id', 'nomMagasin'])->toJson() !!};
+    showMagasinsModal('Sans souvenirs', magasins);
+}
+
+function showMagasinsModal(title, magasins) {
+    let content = `
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> Les magasins ci-dessous n'ont pas de Souvenirs. 
+            Cliquez sur le nom d'un magasin pour en ajouter.
+        </div>
+        <ul class="list-group">
+    `;
+    
+    magasins.forEach(magasin => {
+        const editUrl = `${window.location.protocol}//${window.location.host}/magasins/${magasin.id}/edit?scroll=promotions`;
+        content += `
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="${editUrl}" class="text-primary" style="text-decoration: none;">
+                    ${magasin.nomMagasin}
+                    <i class="fas fa-edit ms-2"></i>
+                </a>
+            </li>
+        `;
+    });
+    content += '</ul>';
+
+    Swal.fire({
+        title: `Magasins ${title}`,
+        html: content,
+        width: 600,
+        confirmButtonText: 'Fermer',
+        confirmButtonColor: '#3085d6'
+    });
+}
+
+
+
+
 
 </script>
 @endsection

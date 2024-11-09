@@ -52,5 +52,25 @@
 
         <button type="submit" class="btn btn-primary">Mettre à jour</button>
     </form>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('scroll') === 'promotions') {
+            setTimeout(() => {
+                const promotionsSection = document.querySelector('[name="promotions[]"]');
+                if (promotionsSection) {
+                    promotionsSection.closest('.form-group').scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }, 500);
+        }
+    });
+    </script>
+
 </div>
+
+
 @endsection

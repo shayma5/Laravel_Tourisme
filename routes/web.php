@@ -41,17 +41,6 @@ Route::get('/hotels', function () {
 
 // Routes Gestion des Promotions et Souvenirs
 Route::resource('/campagnes', CampagnePromotionnelleController::class);
-
-/*
-GET /campagnes (index) => campagnes.index
-GET /campagnes/create (create)
-POST /campagnes (store)
-GET /campagnes/{campagne} (show)
-GET /campagnes/{campagne}/edit (edit)
-PUT/PATCH /campagnes/{campagne} (update)
-DELETE /campagnes/{campagne} (destroy)
-*/
-
 Route::resource('/promotions', PromotionController::class);
 Route::resource('/magasins', MagasinController::class);
 Route::resource('/souvenirs', SouvenirController::class);
@@ -60,12 +49,8 @@ Route::put('/magasins/{magasin}/souvenirs/unassign-multiple', [MagasinController
     ->name('magasins.souvenirs.unassign-multiple');
 Route::put('/magasins/{magasin}/souvenirs', [MagasinController::class, 'updateSouvenirs'])
     ->name('magasins.souvenirs.update');
-
 Route::get('/loading', [LoadingController::class, 'show'])->name('loading');
 Route::post('/loading/store', [LoadingController::class, 'store'])->name('loading.store');
-
-
-
 Route::get('home/magasins/{magasin}/souvenirs', [SouvenirController::class, 'souvenirsParMagasin'])->name('layouts.SouvenirsArtisanat.magasins.indexSouvenirMagasin');
 Route::get('/home/magasins', [MagasinController::class, 'publicIndex'])->name('layouts.SouvenirsArtisanat.magasins.index');
 Route::get('/home/magasins/{magasin}', [MagasinController::class, 'showPublic'])->name('layouts.SouvenirsArtisanat.magasins.show');
@@ -77,6 +62,16 @@ Route::get('/home/thank-you', function () {
     return view('layouts.SouvenirsArtisanat.souvenirs.payment.thankyou');
 })->name('layouts.SouvenirsArtisanat.souvenirs.payment.thankyou');
 
+
+
+
+Route::get('/api/magasins/without-promotions', function() {
+    return \App\Models\Magasin::doesntHave('promotions')->get(['id', 'nomMagasin']);
+});
+
+Route::get('/api/magasins/without-souvenirs', function() {
+    return \App\Models\Magasin::doesntHave('souvenirs')->get(['id', 'nomMagasin']);
+});
 
 
 
