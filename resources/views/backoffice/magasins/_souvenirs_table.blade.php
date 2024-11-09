@@ -16,9 +16,11 @@
         @foreach($souvenirs as $souvenir)
         <tr>
             <td class="text-center">
-                @if(!$magasin->souvenirs->contains($souvenir->id))
-                    <input type="checkbox" name="souvenirs[]" value="{{ $souvenir->id }}" 
-                        {{ $magasin->souvenirs->contains($souvenir->id) ? 'checked' : '' }}>
+                @if($magasin->souvenirs->contains($souvenir->id))
+                    <input type="checkbox" name="souvenirs[]" value="{{ $souvenir->id }}" checked disabled>
+                    <input type="hidden" name="souvenirs[]" value="{{ $souvenir->id }}">
+                @else
+                    <input type="checkbox" name="souvenirs[]" value="{{ $souvenir->id }}">
                 @endif
             </td>
             <td class="text-center">{{ $souvenir->nom }}</td>
@@ -148,4 +150,3 @@ function toggleAllAvailableSouvenirs() {
     }
 }
 </script>
-

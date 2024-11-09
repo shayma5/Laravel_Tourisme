@@ -58,34 +58,47 @@
 
         <div class="form-group">
             <hr>
-            <h4>Promotions</h4>
+            <h4>Promotions disponibles</h4>
             <div class="card-body">
-                @if($promotions->isNotEmpty())
-                    <select class="form-control mb-3" name="promotions[]" multiple>
-                        <option value="">Aucune promotion</option>
-                        @foreach($promotions as $promotion)
-                            @php
-                                $daysRemaining = \Carbon\Carbon::parse($promotion->date_fin)->diffInDays(now());
-                            @endphp
-                            <option value="{{ $promotion->id }}">
-                                {{ $promotion->nom }} 
-                                ({{ $promotion->date_debut }} - {{ $promotion->date_fin }})
-                                @if($daysRemaining <= 10)
-                                    <span class="text-danger">({{ $daysRemaining }} jours restants)</span>
-                                @else
-                                    ({{ $daysRemaining }} jours restants)
-                                @endif
-                            </option>
-                        @endforeach
-                    </select>
-                    <a href="{{ route('promotions.create') }}" class="btn btn-primary">Créer une nouvelle promotion</a>
-                @else
-                    <div class="alert alert-info">
-                        <p>Aucune promotion n'est disponible actuellement. Vous pourrez en ajouter ultérieurement.</p>
-                        <p>Pour créer une nouvelle promotion maintenant, cliquez sur le bouton ci-dessous.</p>
-                    </div>
-                    <a href="{{ route('promotions.create') }}" class="btn btn-primary">Créer une nouvelle promotion</a>
-                @endif
+                <div class="form-check mb-3">
+                    <input type="radio" class="form-check-input" id="no_promo" name="promo_choice" value="none" checked>
+                    <label class="form-check-label" for="no_promo">Sans promotion</label>
+                </div>
+                
+                <div class="form-check mb-3">
+                    <input type="radio" class="form-check-input" id="with_promo" name="promo_choice" value="with">
+                    <label class="form-check-label" for="with_promo">Avec promotion</label>
+                </div>
+
+                <div id="promotions_list" style="display: none;">
+                    @if($promotions->isNotEmpty())
+                        <div class="form-check">
+                            @foreach($promotions as $promotion)
+                                @php
+                                    $daysRemaining = \Carbon\Carbon::parse($promotion->date_fin)->diffInDays(now());
+                                @endphp
+                                <div class="mb-2">
+                                    <input type="checkbox" name="promotions[]" value="{{ $promotion->id }}" 
+                                        class="form-check-input" id="promo_{{ $promotion->id }}">
+                                    <label class="form-check-label" for="promo_{{ $promotion->id }}">
+                                        {{ $promotion->nom }} 
+                                        ({{ $promotion->date_debut }} - {{ $promotion->date_fin }})
+                                        @if($daysRemaining <= 10)
+                                            <span class="text-danger">({{ $daysRemaining }} jours restants)</span>
+                                        @else
+                                            ({{ $daysRemaining }} jours restants)
+                                        @endif
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="alert alert-info">
+                            <p>Aucune promotion n'est disponible actuellement.</p>
+                            <a href="{{ route('promotions.create') }}" class="btn btn-primary">Créer une nouvelle promotion</a>
+                        </div>
+                    @endif
+                </div>
             </div>
         </div>
 
@@ -95,4 +108,17 @@
         <button type="submit" class="btn btn-primary">Créer</button>
     </form>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const radioButtons = document.querySelectorAll('input[name="promo_choice"]');
+    const promotionsList = document.getElementById('promotions_list');
+
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', function() {
+            promotionsList.style.display = this.value === 'with' ? 'block' : 'none';
+        });
+    });
+});
+</script>
 @endsection

@@ -35,7 +35,7 @@
 
         <div class="form-group">
             <label for="date_debut">Date de début</label>
-            <input type="date" id="date_debut" name="date_debut" value="{{ old('date_debut') }}" required>
+            <input type="date" class="form-control" id="date_debut" name="date_debut" value="{{ old('date_debut') }}" required>
             @error('date_debut')
                 <small class="text-danger">{{ $message }}</small>
             @enderror
@@ -43,7 +43,7 @@
 
         <div class="form-group">
             <label for="date_fin">Date de fin</label>
-            <input type="date" id="date_fin" name="date_fin" value="{{ old('date_fin') }}" required>
+            <input type="date" class="form-control" id="date_fin" name="date_fin" value="{{ old('date_fin') }}" required>
             @error('date_fin')
                 <small class="text-danger">{{ $message }}</small>
             @enderror

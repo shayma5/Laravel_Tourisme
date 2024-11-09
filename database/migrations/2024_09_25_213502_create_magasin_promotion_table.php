@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('magasin_promotion', function (Blueprint $table) {
             $table->id();
             $table->foreignId('magasin_id')->constrained()->onDelete('cascade');
-            $table->foreignId('promotion_id')->constrained()->onDelete('cascade');
+            $table->foreignId('promotion_id')->nullable()->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

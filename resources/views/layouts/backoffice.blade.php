@@ -102,15 +102,26 @@
                       </div>
                     </li>
                     <li class="nav-item">
-                      <a href="{{ route('magasins.index') }}">
+                      <a href="{{ route('magasins.index') }}" data-bs-toggle="tooltip" data-bs-html="true" 
+                        title="@php
+                            $noPromos = \App\Models\Magasin::whereDoesntHave('promotions')->count();
+                            $noSouvenirs = \App\Models\Magasin::whereDoesntHave('souvenirs')->count();
+                            if($noPromos > 0) echo "<div>Magasins sans promotions: <span class='text-danger'>$noPromos</span></div>";
+                            if($noSouvenirs > 0) echo "<div>Magasins sans souvenirs: <span class='text-success'>$noSouvenirs</span></div>";
+                        @endphp">
                         <i class="fas fa-store"></i>
                         <p>Magasins</p>
                         <div style="display: inline-flex; gap: 2px;">
-                          <span class="badge badge-danger">{{ \App\Models\Magasin::whereDoesntHave('promotions')->count() }}</span>
-                          <span class="badge badge-success">{{ \App\Models\Magasin::whereDoesntHave('souvenirs')->count() }}</span>
+                          @if($noPromos > 0)
+                            <span class="badge badge-danger">{{ $noPromos }}</span>
+                          @endif
+                          @if($noSouvenirs > 0)
+                            <span class="badge badge-success">{{ $noSouvenirs }}</span>
+                          @endif
                         </div>
                       </a>
                     </li>
+
                     <li class="nav-item">
                       <a href="{{ route('souvenirs.index') }}">
                         <i class="fas fa-gift"></i>
@@ -596,6 +607,17 @@
         lineWidth: "2",
         lineColor: "#ffa534",
         fillColor: "rgba(255, 165, 52, .14)",
+      });
+    </script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+          var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+              return new bootstrap.Tooltip(tooltipTriggerEl, {
+                  html: true
+              })
+          })
       });
     </script>
   </body>

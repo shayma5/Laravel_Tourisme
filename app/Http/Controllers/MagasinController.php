@@ -147,6 +147,9 @@ class MagasinController extends Controller
 
         $magasin->update($validatedData);
 
+        // Sync the promotions
+        $magasin->promotions()->sync($request->input('promotions', []));
+
         
 
         return redirect()->route('magasins.index')->with('success', 'Magasin mis à jour avec succès.');
