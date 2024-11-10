@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Events;
+use App\Models\Participation;
 class EventController extends Controller
 {
    
@@ -14,9 +15,23 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Events::all();
-        return view ('backoffice.events.index')->with('events', $events);
+        $events = Events::paginate(6); // 6 événements par page
+        return view('backoffice.events.index')->with('events', $events);
+        
     }
+
+
+    public function showParticipants($eventId)
+    {
+        $event = Events::findOrFail($eventId);
+        $participants = Participation::where('event_id', $eventId)
+                        ->paginate(10); // Remplace `get()` par `paginate()`
+
+        return view('backoffice.events.participants', compact('event', 'participants'));
+    }
+
+
+    
 
 
     /**
@@ -73,6 +88,7 @@ class EventController extends Controller
         $event = Events::find($id);
         return view('backoffice.events.show')->with('events', $event);
     }
+    
  
     /**
      * Show the form for editing the specified resource.
@@ -139,9 +155,11 @@ class EventController extends Controller
 
     public function indexFrontOffice()
     {
-        $events = Events::all(); // Récupérer tous les événements
+        $events = Events::paginate(8); // 20 événements par page
         return view('layouts.events.index', compact('events')); // Passer les événements à la vue
     }
+    
+    
     public function showFrontOffice($id)
     {
         $event = Events::findOrFail($id); // Récupère l'événement ou lance une erreur 404

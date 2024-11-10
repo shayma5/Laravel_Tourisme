@@ -30,7 +30,7 @@
                     <p class="card-text">Start date : {{ $events->start_date }}</p>
                     <p class="card-text">End date : {{ $events->end_date }}</p>
                     <p class="card-text">Location : {{ $events->location }}</p>
-                    
+                    <a href="{{ route('events.participants', $events->id) }}" class="btn btn-primary">View Participants</a>
                    
                 </div>
             </div>

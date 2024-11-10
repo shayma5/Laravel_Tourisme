@@ -11,7 +11,7 @@
         rel="icon"
         href="{{ asset('assets2/img/kaiadmin/favicon.ico') }}"
         type="image/x-icon" />
-
+    
     <!-- Fonts and icons -->
     <script src="{{ asset('assets2/js/plugin/webfont/webfont.min.js') }}"></script>
     <script>
@@ -110,7 +110,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ url('/event') }}">
+                                        <a href="{{ url('/calendar') }}">
                                             <span class="sub-item">Events Calendar</span>
                                         </a>
                                     </li>

@@ -19,6 +19,7 @@
         "sass": "^1.56.1"
     },
     "dependencies": {
+        "fullcalendar": "^6.1.15",
         "vite": "^5.4.7"
     }
 }
