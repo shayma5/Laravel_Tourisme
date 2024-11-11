@@ -94,6 +94,30 @@
                         <li>
                             <a href="{{ url('/participation') }}">
                                 <span class="sub-item">Participations</span>
+                        <li class="nav-item">
+                            <a href="{{ route('restaurants.index') }}">
+                                <i class="fas fa-layer-group"></i>
+                                <p>Resturants</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('plats.index') }}">
+                                <i class="fas fa-layer-group"></i>
+                                <p>Plats</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('avis.index') }}">
+                                <i class="fas fa-layer-group"></i>
+                                <p>Avis</p>
+                            </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#sidebarLayouts">
+                                <i class="fas fa-th-list"></i>
+                                <p>Sidebar Layouts</p>
+                                <span class="caret"></span>
                             </a>
                         </li>
                     </ul>

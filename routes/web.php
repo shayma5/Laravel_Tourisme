@@ -14,6 +14,9 @@ use App\Http\Controllers\SouvenirController;
 use App\Http\Controllers\StripePaymentController;
 use App\Http\Controllers\LoadingController;
 
+use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\PlatController;
+use App\Http\Controllers\AvisController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,9 +32,36 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Route::get('/restaurants',[RestaurantController::class, 'app'] ,function () {
+//     return view('app.restaurants.index');
+// })->name('restaurants.index2');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Routes backend (admin)
+
+Route::resource('plats', PlatController::class);
+Route::resource('avis', AvisController::class);
+
+
+
+// Routes frontend (utilisateurs)
+Route::get('/restaurants/frontend', [RestaurantController::class, 'showFrontend'])->name('restaurants.showFrontend');
+Route::get('/restaurants/frontend/{id}', [RestaurantController::class, 'showFrontend'])->name('restaurants.show.frontend');
+Route::get('/restaurants/app', [RestaurantController::class, 'app'])->name('restaurants.app');
+
+Route::prefix('admin')->group(function () {
+    Route::resource('restaurants', RestaurantController::class);
+});
+
+
+
+
+// Route::post('/restaurants', [RestaurantController::class, 'store'])->name('restaurants.store');
+// routes/web.php
+
+
 Route::get('/admin/dashboard', function () {
     return view('backoffice.dashboard');
 })->middleware('auth');
@@ -90,3 +120,6 @@ Route::get('/api/magasins/without-souvenirs', function() {
     return \App\Models\Magasin::doesntHave('souvenirs')->get(['id', 'nomMagasin']);
 });
 
+// Route::get('/restaurants', function () {
+//     return view('backoffice.restaurants.index'); // Add .index to indicate the file
+// })->name('resturants');
