@@ -9,7 +9,7 @@
   <div class="card-body">
 
     <!-- Form to update Maison d'haute -->
-    <form action="{{ route('maisons.update', $maisons->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('backoffice.maisons.update', $maisons->id) }}" method="POST" enctype="multipart/form-data">
       @csrf
       @method('PATCH') <!-- Required for PATCH request -->
 

@@ -40,15 +40,16 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate inputs with proper rules
         $data = $request->validate([
-            'maison_id' => 'required|exists:maison_dhautes,id', // Validate the maison_id exists in the database
+            'maison_id' => 'required|exists:maison_dhautes,id', // Validate the maison_id exists
             'type' => 'required|string|max:255',
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|min:0', // Ensure price is a positive number
             'description' => 'required|string',
-            'image' => 'nullable|image',
+            'image' => 'nullable|image|max:2048', // Image must be optional, max size 2MB
         ]);
 
-        // Handle image upload
+        // Handle image upload if present
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('images/rooms', 'public');
         }
@@ -56,25 +57,17 @@ class RoomController extends Controller
         // Set available to true by default
         $data['available'] = true;
 
-        // Create a new Room for the Maison d'haute using the maison_id from the request
+        // Create a new Room for the selected Maison d'haute
         $maisonDhaute = MaisonDhaute::findOrFail($data['maison_id']);
         $maisonDhaute->rooms()->create($data);
 
-        return redirect()->route('backoffice.room.rooms', $maisonDhaute)->with('success', 'Room created successfully.');
+        // Redirect with success message
+        return redirect()->route('backoffice.room.index', $maisonDhaute)->with('success', 'Room created successfully.');
     }
 
 
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Room $room
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Room $room)
-    {
-        return view('rooms.show', compact('room'));
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -83,9 +76,10 @@ class RoomController extends Controller
      * @param  Room $room
      * @return \Illuminate\Http\Response
      */
-    public function edit(MaisonDhaute $maisonDhaute, Room $room)
+    public function edit($id)
     {
-        return view('backoffice.room.editRoom', compact('maisonDhaute', 'room'));
+        $room = Room::findOrFail($id);
+        return view('backoffice.room.editRoom', compact('room'));
     }
 
 
@@ -98,8 +92,9 @@ class RoomController extends Controller
      * @param  Room $room
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MaisonDhaute $maisonDhaute, Room $room)
+    public function update(Request $request, $id)
     {
+        $room = Room::findOrFail($id);
         $data = $request->validate([
             'type' => 'required|string|max:255',
             'price' => 'required|numeric',
@@ -119,7 +114,7 @@ class RoomController extends Controller
         // Update the room with validated data
         $room->update($data);
 
-        return redirect()->route('backoffice.room.rooms', $maisonDhaute)->with('success', 'Room updated successfully.');
+        return redirect()->route('backoffice.room.index')->with('success', 'Room updated successfully.');
     }
 
 
@@ -130,16 +125,13 @@ class RoomController extends Controller
      * @param  Room $room
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MaisonDhaute $maisonDhaute, Room $room)
+    public function destroy($id)
     {
-        // Delete associated image if exists
-        if ($room->image) {
-            Storage::delete('public/' . $room->image);
-        }
+        $room = Room::findOrFail($id);
 
         // Delete room
         $room->delete();
 
-        return redirect()->route('backoffice.room.rooms', $maisonDhaute)->with('success', 'Room deleted successfully.');
+        return redirect()->route('backoffice.room.index')->with('success', 'Room deleted successfully.');
     }
 }

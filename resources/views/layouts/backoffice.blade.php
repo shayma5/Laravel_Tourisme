@@ -91,15 +91,21 @@
                             <h4 class="text-section">Components</h4>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/maisons') }}">
+                            <a href="{{ url('/backoffice/maisons') }}">
                                 <i class="fas fa-home"></i>
                                 <p>Maisons</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/rooms') }}">
+                            <a href="{{ url('/backoffice/rooms') }}">
                                 <i class="fas fa-bed"></i>
                                 <p>Rooms</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/bookings') }}">
+                                <i class="fas fa-th-list"></i>
+                                <p>Booking</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -591,6 +597,9 @@
                                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                                 @csrf
                                             </form>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ url('/home') }}" >see website</a>
                                         </li>
                                     </div>
                                 </ul>

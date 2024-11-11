@@ -9,22 +9,32 @@ use Illuminate\Http\Request;
 
 class MaisonDhauteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function backofficeIndex(Request $request)
+    {
+        $query = $request->input('search');
+
+        if ($query) {
+            $maisons = MaisonDhaute::where('name', 'LIKE', "%{$query}%")
+                ->orWhere('location', 'LIKE', "%{$query}%")
+                ->get();
+        } else {
+            $maisons = MaisonDhaute::all();
+        }
+
+        // Check if it's an AJAX request
+        if ($request->ajax()) {
+            return response()->json(['maisons' => $maisons]);
+        }
+
+        return view('backoffice.maisons', compact('maisons'));
+    }
+
+
+    // Index function for the frontoffice
+    public function frontofficeIndex()
     {
         $maisons = MaisonDhaute::all();
-
-        if (request()->route()->named('backoffice.maisons')) {
-            // Return the backoffice view
-            return view('backoffice.maisons', compact('maisons'));
-        } else {
-            // Return the frontoffice view
-            return view('maisonDaute', compact('maisons'));
-        }
+        return view('maisonDaute', compact('maisons')); // Frontoffice view
     }
 
 
@@ -46,12 +56,13 @@ class MaisonDhauteController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate the inputs
         $data = $request->validate([
-            'name' => 'required',
-            'location' => 'required',
-            'description' => 'required',
-            'number_of_rooms' => 'required|integer',
-            'image' => 'image|nullable'
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'description' => 'required|string',
+            'number_of_rooms' => 'required|integer|min:1',
+            'image' => 'image|nullable|max:2048' // Optional image validation
         ]);
 
         // Handle the image upload
@@ -59,29 +70,27 @@ class MaisonDhauteController extends Controller
             $data['image'] = $request->file('image')->store('images', 'public');
         }
 
+        // Create the Maison d'haute record
         MaisonDhaute::create($data);
-        return redirect()->route('backoffice.maisons')->with('success', 'Maison d\'haute created successfully.');
+
+        // Redirect with success message
+        return redirect()->route('backoffice.maisons.index')->with('success', 'Maison d\'haute created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // Display the specified Maison d'haute
-    public function show($id)
-{
-    $maison = MaisonDhaute::with('rooms')->findOrFail($id); // Use with() to eager load rooms
 
-    if (request()->route()->named('backoffice.maisons.show')) {
-        // Return the backoffice view
-        return view('backoffice.showMaison')->with('maison', $maison);
-    } else {
-        // Return the frontoffice view
-        return view('maisonhoteRooms')->with('maison', $maison);
+    // Show function for the backoffice
+    public function backofficeShow($id)
+    {
+        $maison = MaisonDhaute::with('rooms')->findOrFail($id); // Eager load rooms
+        return view('backoffice.showMaison', compact('maison')); // Backoffice view
     }
-}
+
+    // Show function for the frontoffice
+    public function frontofficeShow($id)
+    {
+        $maison = MaisonDhaute::with('rooms')->findOrFail($id); // Eager load rooms
+        return view('maisonhoteRooms', compact('maison')); // Frontoffice view
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -104,40 +113,47 @@ class MaisonDhauteController extends Controller
      * @return \Illuminate\Http\Response
      */
     // Update the specified Maison d'haute in storage
-    public function update(Request $request, MaisonDhaute $maison)
+    public function update(Request $request, $id)
     {
+        // Find the Maison d'haute by its ID
+        $maison = MaisonDhaute::findOrFail($id);
+
+        // Validate the request data
         $data = $request->validate([
-            'name' => 'required',
-            'location' => 'required',
-            'description' => 'required',
+            'name' => 'required|string|max:255',
+            'location' => 'required|string|max:255',
+            'description' => 'required|string',
             'number_of_rooms' => 'required|integer',
-            'image' => 'image|nullable'
+            'image' => 'nullable|image'
         ]);
 
-        // Handle the image upload
+        // Handle the image upload, if a new image is uploaded
         if ($request->hasFile('image')) {
-
             $data['image'] = $request->file('image')->store('images', 'public');
         }
 
+        // Update the Maison d'haute with the validated data
         $maison->update($data);
-        return redirect()->route('backoffice.maisons')->with('success', 'Maison d\'haute updated successfully.');
+
+        // Redirect back to the index page with a success message
+        return redirect()->route('backoffice.maisons.index')->with('success', 'Maison d\'hote updated successfully.');
     }
 
+
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified Maison d'haute from storage.
      *
-     * @param  int  $id
+     * @param  MaisonDhaute $maison
      * @return \Illuminate\Http\Response
      */
-    // Remove the specified Maison d'haute from storage
-    public function destroy(MaisonDhaute $maison)
+    public function destroy($id)
     {
-
-        // Cascade delete rooms
+        $maison = MaisonDhaute::findOrFail($id);
+        // Delete associated rooms
         $maison->rooms()->delete();
-
+        // Delete the Maison d'haute
         $maison->delete();
-        return redirect()->route('backoffice.maisons')->with('success', 'Maison d\'haute deleted successfully.');
+
+        return redirect()->route('backoffice.maisons.index')->with('success', 'Maison d\'hote and all associated rooms deleted successfully.');
     }
 }

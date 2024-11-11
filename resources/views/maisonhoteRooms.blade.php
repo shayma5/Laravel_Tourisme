@@ -41,11 +41,12 @@
                         <div class="job-thumb job-thumb-box">
                             <div class="job-image-box-wrap">
                                 @if ($room->image)
-                                <img src="{{ asset('storage/' . $room->image) }}" alt="" class="job-image img-fluid">
+                                <img src="{{ asset('storage/' . $room->image) }}" alt="" class="job-image img-fluid" style="width: 300px; height: 200px; object-fit: cover;">
                                 @else
                                 No Image
                                 @endif
                             </div>
+
 
                             <div class="job-body">
                                 <h4 class="job-title">
@@ -57,8 +58,8 @@
                                     <a href="#" class="bi-heart"></a>
                                 </div>
                                 <p class="job-location">
-                                        {{ $room->description }}
-                                    </p>
+                                    {{ $room->description }}
+                                </p>
                                 <div class="d-flex align-items-center">
                                     <p class="job-location">
                                         <i class="custom-icon bi-door-open me-1"></i>
@@ -69,10 +70,10 @@
                                 <div class="d-flex align-items-center border-top pt-3">
                                     <p class="job-price mb-0">
                                         <i class="custom-icon bi-cash me-1"></i>
-                                        Start with {{ $room->price }} DT/night
+                                        {{ $room->price }} DT/night
                                     </p>
 
-                                    <a href="#" class="custom-btn btn ms-auto">reserver</a>
+                                    <a href="{{ url('/booking/' . $room->id) }}" class="custom-btn btn ms-auto">reserver</a>
                                 </div>
                             </div>
                         </div>
