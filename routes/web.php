@@ -1,10 +1,18 @@
 <?php
 
+
+use App\Http\Controllers\MaisonDhauteController;
+use App\Http\Controllers\RoomController;
+
+use App\Http\Controllers\BookingController;
+
+
+
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\EventController;
-use App\Http\Controllers\ParticipatioEventController; 
-use App\Http\Controllers\FullEventCalendarController; 
+use App\Http\Controllers\ParticipatioEventController;
+use App\Http\Controllers\FullEventCalendarController;
 use App\Models\Events;
 use App\Http\Controllers\PayementStripeController;
 use App\Http\Controllers\CampagnePromotionnelleController;
@@ -31,6 +39,7 @@ use App\Http\Controllers\AvisController;
 Route::get('/', function () {
     return view('welcome');
 });
+
 
 // Route::get('/restaurants',[RestaurantController::class, 'app'] ,function () {
 //     return view('app.restaurants.index');
@@ -66,9 +75,49 @@ Route::get('/admin/dashboard', function () {
     return view('backoffice.dashboard');
 })->middleware('auth');
 
-Route::get('/hotels', function () {
-    return view('backoffice.hotels');
-})->name('hotels');
+
+
+
+
+
+//Route::resource('rooms', RoomController::class)->names(['index' => 'backoffice.room.rooms']);
+
+// Backoffice routes
+Route::prefix('backoffice')->name('backoffice.')->group(function () {
+    // Separate index and show routes for backoffice
+    Route::get('maisons', [MaisonDhauteController::class, 'backofficeIndex'])->name('maisons.index');
+    Route::get('maisons/create', [MaisonDhauteController::class, 'create'])->name('maisons.create');
+    Route::post('maisons', [MaisonDhauteController::class,'store'])->name('maisons.store');
+    Route::get('maisons/{id}', [MaisonDhauteController::class, 'backofficeShow'])->name('maisons.show');
+    Route::delete('maisons/{id}', [MaisonDhauteController::class, 'destroy'])->name('maisons.destroy');
+    Route::get('maisons/{id}/edit', [MaisonDhauteController::class, 'edit'])->name('maisons.edit');
+    Route::patch('maisons/{id}', [MaisonDhauteController::class, 'update'])->name('maisons.update');
+
+
+    // Room routes
+    Route::get('rooms', [RoomController::class, 'index'])->name('room.index');
+    Route::get('rooms/{id}/edit', [RoomController::class, 'edit'])->name('room.edit');
+    Route::patch('rooms/{id}', [RoomController::class, 'update'])->name('room.update');
+    Route::delete('rooms/{id}', [RoomController::class, 'destroy'])->name('room.destroy');
+    Route::get('rooms/create', [RoomController::class, 'create'])->name('room.create');
+    Route::post('rooms', [RoomController::class,'store'])->name('room.store');
+
+});
+
+// Frontoffice routes
+Route::prefix('maisondhote')->group(function () {
+    // Separate index and show routes for frontoffice
+    Route::get('/', [MaisonDhauteController::class, 'frontofficeIndex'])->name('maisondhote.index');
+    Route::get('/{id}', [MaisonDhauteController::class, 'frontofficeShow'])->name('maisondhote.show');
+});
+
+
+
+Route::delete('/backoffice/bookings/{id}', [BookingController::class, 'destroy'])->name('bookings.destroy');
+Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+Route::get('/booking/{roomId}', [BookingController::class, 'create'])->name('bookings.create');
+Route::post('/maisondhote', [BookingController::class, 'store'])->name('bookings.store');
+
 
 
 // route pour module Event

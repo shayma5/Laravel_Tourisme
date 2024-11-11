@@ -13,14 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('magasin_promotion', function (Blueprint $table) {
+        Schema::create('maison_dhautes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('magasin_id')->constrained()->onDelete('cascade');
-            $table->foreignId('promotion_id')->nullable()->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->string('location');
+            $table->text('description');
+            $table->integer('number_of_rooms');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
-
 
     /**
      * Reverse the migrations.
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('magasin_promotion');
+        Schema::dropIfExists('maison_dhautes');
     }
 };
