@@ -74,6 +74,32 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarLayouts">
+                    <i class="fas fa-th-list"></i>
+                    <p>Events</p>
+                    <span class="caret"></span>
+                </a>
+                <div class="collapse" id="sidebarLayouts">
+                    <ul class="nav nav-collapse">
+                        <li>
+                            <a href="{{ url('/event') }}">
+                                <span class="sub-item">Events</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/calendar') }}">
+                                <span class="sub-item">Events Calendar</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/participation') }}">
+                                <span class="sub-item">Participations</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+              <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#submenu">
                   <i class="fas fa-bars"></i>
                   <p>Souvenirs et Promotions</p>
@@ -132,27 +158,7 @@
                   </ul>
                 </div>
               </li>
-              <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#sidebarLayouts">
-                  <i class="fas fa-th-list"></i>
-                  <p>Sidebar Layouts</p>
-                  <span class="caret"></span>
-                </a>
-                <div class="collapse" id="sidebarLayouts">
-                  <ul class="nav nav-collapse">
-                    <li>
-                      <a href="sidebar-style-2.html">
-                        <span class="sub-item">Sidebar Style 2</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="icon-menu.html">
-                        <span class="sub-item">Icon Menu</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
+              
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#forms">
                   <i class="fas fa-pen-square"></i>

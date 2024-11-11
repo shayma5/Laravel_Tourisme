@@ -190,7 +190,7 @@ Circles.create({
 })
 
 //Notify
-$.notify({
+$.notify1({
 	icon: 'icon-bell',
 	title: 'Kaiadmin',
 	message: 'Premium Bootstrap 5 Admin Dashboard !!!',
