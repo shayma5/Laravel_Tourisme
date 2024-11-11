@@ -43,7 +43,7 @@
             </div>
             <div class="form-group">
                 <label for="phone">Phone Number</label>
-                <input type="tel" name="phone" class="form-control" required>
+                <input type="tel" name="phone" class="form-control" required value="+216">
             </div>
             <div class="form-group">
                 <label for="start_date">Start Date</label>
