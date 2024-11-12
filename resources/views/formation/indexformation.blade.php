@@ -89,6 +89,9 @@
                                     <a href="{{ url('admin/dashboard/formations/'.$item->id.'/deleteformation') }}" class="btn btn-link btn-danger" onclick="return confirm('Are you sure?')">
                                         <i class="fa fa-times"></i>
                                     </a>
+                                    <a href="{{ url('admin/dashboard/formations/'.$item->id.'/affecter') }}" class="btn btn-link btn-success" data-bs-toggle="tooltip" title="Affecter classes">
+                                Affecter Programme
+                            </a>
                                 </td>
                             </tr>
                             @endforeach
